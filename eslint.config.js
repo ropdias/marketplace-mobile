@@ -2,6 +2,7 @@
 const { defineConfig } = require('eslint/config')
 const expoConfig = require('eslint-config-expo/flat')
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended')
+const simpleImportSort = require('eslint-plugin-simple-import-sort')
 
 module.exports = defineConfig([
   expoConfig,
