@@ -1,5 +1,5 @@
 import { router } from 'expo-router'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 
 import { useSession } from '@/contexts/auth-context'
 
@@ -16,18 +16,13 @@ export default function Login() {
   }
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 items-center justify-center">
       <TouchableOpacity onPress={login}>
-        <Text style={styles.title}>Login</Text>
+        <Text className="text-2xl font-bold">Login</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={register}>
-        <Text style={styles.title}>Register</Text>
+        <Text className="text-2xl font-bold">Register</Text>
       </TouchableOpacity>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  title: { fontSize: 22, fontWeight: 'bold' },
-})
