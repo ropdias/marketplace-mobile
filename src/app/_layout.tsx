@@ -2,15 +2,18 @@ import '@/global.css'
 
 import { Stack } from 'expo-router'
 
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import { SessionProvider, useSession } from '@/contexts/auth-context'
 import { SplashScreenController } from '@/splash-screen-controller'
 
 export default function Root() {
   return (
-    <SessionProvider>
-      <SplashScreenController />
-      <RootNavigator />
-    </SessionProvider>
+    <GluestackUIProvider mode="light">
+      <SessionProvider>
+        <SplashScreenController />
+        <RootNavigator />
+      </SessionProvider>
+    </GluestackUIProvider>
   )
 }
 
