@@ -77,8 +77,8 @@ const buttonIconStyle = tva({
       default: '',
     },
     variant: {
-      solid: 'text-white',
-      outline: 'text-orange-base',
+      solid: 'fill-white',
+      outline: 'fill-orange-base',
     },
     size: {
       medium: 'size-6',
