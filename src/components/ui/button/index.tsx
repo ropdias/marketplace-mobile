@@ -37,17 +37,17 @@ cssInterop(PrimitiveIcon, {
 })
 
 const buttonStyle = tva({
-  base: 'group/button flex-row items-center justify-center gap-2 rounded bg-primary-500 data-[disabled=true]:opacity-40 data-[focus-visible=true]:web:outline-none data-[focus-visible=true]:web:ring-2',
+  base: 'group/button flex-row items-center justify-center gap-2 rounded bg-primary-500 data-[disabled=true]:opacity-40',
   variants: {
     action: {
       primary:
-        'border-primary-300 bg-primary-500 data-[active=true]:border-primary-500 data-[hover=true]:border-primary-400 data-[active=true]:bg-primary-700 data-[hover=true]:bg-primary-600 data-[focus-visible=true]:web:ring-indicator-info',
+        'border-primary-300 bg-primary-500 data-[active=true]:border-primary-500 data-[hover=true]:border-primary-400 data-[active=true]:bg-primary-700 data-[hover=true]:bg-primary-600',
       secondary:
-        'border-secondary-300 bg-secondary-500 data-[active=true]:border-secondary-700 data-[hover=true]:border-secondary-400 data-[active=true]:bg-secondary-700 data-[hover=true]:bg-secondary-600 data-[focus-visible=true]:web:ring-indicator-info',
+        'border-secondary-300 bg-secondary-500 data-[active=true]:border-secondary-700 data-[hover=true]:border-secondary-400 data-[active=true]:bg-secondary-700 data-[hover=true]:bg-secondary-600',
       positive:
-        'border-success-300 bg-success-500 data-[active=true]:border-success-500 data-[hover=true]:border-success-400 data-[active=true]:bg-success-700 data-[hover=true]:bg-success-600 data-[focus-visible=true]:web:ring-indicator-info',
+        'border-success-300 bg-success-500 data-[active=true]:border-success-500 data-[hover=true]:border-success-400 data-[active=true]:bg-success-700 data-[hover=true]:bg-success-600',
       negative:
-        'border-error-300 bg-error-500 data-[active=true]:border-error-500 data-[hover=true]:border-error-400 data-[active=true]:bg-error-700 data-[hover=true]:bg-error-600 data-[focus-visible=true]:web:ring-indicator-info',
+        'border-error-300 bg-error-500 data-[active=true]:border-error-500 data-[hover=true]:border-error-400 data-[active=true]:bg-error-700 data-[hover=true]:bg-error-600',
       default:
         'bg-transparent data-[active=true]:bg-transparent data-[hover=true]:bg-background-50',
     },
@@ -119,7 +119,7 @@ const buttonStyle = tva({
 })
 
 const buttonTextStyle = tva({
-  base: 'font-semibold text-typography-0 web:select-none',
+  base: 'font-semibold text-typography-0',
   parentVariants: {
     action: {
       primary:
