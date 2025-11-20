@@ -119,3 +119,55 @@ Tailwind config defines CSS variables for semantic colors (primary, secondary, e
 - Modify `auth-context.tsx` for auth logic
 - Session state automatically syncs to SecureStore/localStorage
 - Update guards in root `_layout.tsx` for route protection rules
+
+### Cleaning GluestackUI Components for React Native Only
+
+When adding new GluestackUI components, remove web-specific properties to optimize for mobile:
+
+**1. Remove `:web:` prefixed classes** (web-only features):
+- `data-[focus-visible=true]:web:outline-none`
+- `data-[focus-visible=true]:web:ring-2`
+- `data-[focus-visible=true]:web:ring-*`
+- `web:select-none`
+
+**2. Remove desktop/web interaction states** (not supported in touch interfaces):
+- `data-[hover=true]:*` - Hover doesn't exist on mobile touch
+- `data-[active=true]:*` - Different concept in mobile (use `data-[pressed=true]` if needed)
+- `data-[focus-visible=true]:*` - Keyboard navigation concept (desktop only)
+
+**3. Remove web-only visual effects**:
+- `underline` in hover/active states
+- `ring` and `ring-offset` classes (focus rings)
+- `outline` properties
+
+**4. Simplify or remove**:
+- `group/button` selectors (limited React Native support)
+- Complex compound variants with hover/active states
+
+**5. Keep empty variant objects** for TypeScript compatibility:
+If removing all styles from a variant, leave empty string `''` instead of deleting the property to avoid TypeScript errors when props are passed.
+
+**Example cleanup**:
+```tsx
+// Before (from GluestackUI)
+const buttonStyle = tva({
+  base: 'flex-row data-[focus-visible=true]:web:outline-none data-[focus-visible=true]:web:ring-2',
+  variants: {
+    variant: {
+      solid: 'bg-primary-500 data-[hover=true]:bg-primary-600 data-[active=true]:bg-primary-700',
+    }
+  }
+})
+
+// After (React Native only)
+const buttonStyle = tva({
+  base: 'flex-row',
+  variants: {
+    variant: {
+      solid: 'bg-primary-500',
+    }
+  }
+})
+```
+
+Use `data-[pressed=true]:*` for touch feedback if needed, as it's the native mobile equivalent of press states.
