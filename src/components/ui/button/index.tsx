@@ -45,10 +45,12 @@ const buttonStyle = tva({
     variant: {
       solid: 'bg-orange-base',
       outline: 'border-orange-base border bg-transparent',
+      link: 'bg-transparent',
     },
     size: {
       medium: 'h-14 gap-3 px-5',
       small: 'h-10 gap-2 px-4',
+      link: 'h-6 gap-2 p-0.5',
     },
   },
 })
@@ -62,10 +64,12 @@ const buttonTextStyle = tva({
     variant: {
       solid: 'text-white',
       outline: 'text-orange-base',
+      link: 'text-orange-base',
     },
     size: {
       medium: 'font-action-md',
       small: 'font-action-sm',
+      link: 'font-action-sm',
     },
   },
 })
@@ -79,10 +83,12 @@ const buttonIconStyle = tva({
     variant: {
       solid: 'fill-white',
       outline: 'fill-orange-base',
+      link: 'fill-orange-base',
     },
     size: {
       medium: 'size-6',
       small: 'size-5',
+      link: 'size-5',
     },
   },
 })
