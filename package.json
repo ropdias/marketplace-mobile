@@ -10,9 +10,13 @@
     "lint": "expo lint"
   },
   "dependencies": {
+    "@expo-google-fonts/dm-sans": "^0.4.2",
+    "@expo-google-fonts/poppins": "^0.4.1",
     "@expo/vector-icons": "^15.0.3",
     "@gluestack-ui/core": "^3.0.12",
     "@gluestack-ui/utils": "^3.0.12",
+    "@react-aria/ssr": "^3.9.10",
+    "@react-aria/utils": "^3.31.0",
     "@react-navigation/native": "^7.1.8",
     "expo": "~54.0.23",
     "expo-constants": "~18.0.10",

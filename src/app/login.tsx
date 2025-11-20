@@ -18,10 +18,10 @@ export default function Login() {
   return (
     <View className="flex-1 items-center justify-center">
       <TouchableOpacity onPress={login}>
-        <Text className="text-2xl font-bold">Login</Text>
+        <Text className="font-title-lg p-1">Login</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={register}>
-        <Text className="text-2xl font-bold">Register</Text>
+        <Text className="font-title-md p-1">Register</Text>
       </TouchableOpacity>
     </View>
   )

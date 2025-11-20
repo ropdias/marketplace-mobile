@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .font-title-lg { @apply font-dmSans text-[24px] leading-[120%]; }
+  .font-title-md { @apply font-dmSans text-[20px] leading-[120%]; }
+  .font-title-sm { @apply font-dmSans text-[16px] leading-[120%]; }
+  .font-title-xs { @apply font-dmSans text-[14px] leading-[120%]; }
+
+  .font-body-md { @apply font-poppinsRegular text-[16px] leading-[140%]; }
+  .font-body-sm { @apply font-poppinsRegular text-[14px] leading-[140%]; }
+  .font-body-xs { @apply font-poppinsRegular text-[12px] leading-[140%]; }
+  .font-label-md { @apply font-poppinsMedium text-[12px] leading-[120%] uppercase; }
+  .font-label-sm { @apply font-poppinsMedium text-[10px] leading-[120%] uppercase; }
+  .font-action-md { @apply font-poppinsMedium text-[16px] leading-[120%]; }
+  .font-action-sm { @apply font-poppinsMedium text-[14px] leading-[120%]; }
+}

@@ -177,6 +177,9 @@ module.exports = {
         code: ['var(--font-source-code-pro)'],
         inter: ['var(--font-inter)'],
         'space-mono': ['var(--font-space-mono)'],
+        dmSans: ['DMSans_700Bold'],
+        poppinsRegular: ['Poppins_400Regular'],
+        poppinsMedium: ['Poppins_500Medium'],
       },
       fontWeight: {
         extrablack: '950',
