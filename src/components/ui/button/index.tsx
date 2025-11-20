@@ -44,7 +44,7 @@ const buttonStyle = tva({
     },
     variant: {
       solid: 'bg-orange-base',
-      outline: 'border-orange-base border bg-transparent',
+      outline: 'border border-orange-base bg-transparent',
       link: 'bg-transparent',
     },
     size: {
