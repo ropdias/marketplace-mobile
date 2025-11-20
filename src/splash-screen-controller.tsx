@@ -5,25 +5,38 @@ import {
 } from '@expo-google-fonts/poppins'
 import { useFonts } from 'expo-font'
 import { SplashScreen } from 'expo-router'
-import { useEffect } from 'react'
+import { type ReactNode, useEffect } from 'react'
 
 import { useSession } from './contexts/auth-context'
 
 SplashScreen.preventAutoHideAsync()
 
-export function SplashScreenController() {
-  const { isLoading } = useSession()
+interface SplashScreenControllerProps {
+  children: ReactNode
+}
+
+export function SplashScreenController({
+  children,
+}: SplashScreenControllerProps) {
+  const { isLoadingSession } = useSession()
   const [loaded, error] = useFonts({
     DMSans_700Bold,
     Poppins_400Regular,
     Poppins_500Medium,
   })
 
+  const fontsLoaded = loaded || error
+
   useEffect(() => {
-    if (!isLoading && (loaded || error)) {
+    if (!isLoadingSession && fontsLoaded) {
       SplashScreen.hideAsync()
     }
-  }, [isLoading, loaded, error])
+  }, [isLoadingSession, fontsLoaded])
 
-  return null
+  // Does not render the children until fonts and session are loaded
+  if (!fontsLoaded || isLoadingSession) {
+    return null
+  }
+
+  return <>{children}</>
 }

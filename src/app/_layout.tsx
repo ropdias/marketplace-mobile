@@ -10,8 +10,9 @@ export default function Root() {
   return (
     <GluestackUIProvider mode="light">
       <SessionProvider>
-        <SplashScreenController />
-        <RootNavigator />
+        <SplashScreenController>
+          <RootNavigator />
+        </SplashScreenController>
       </SessionProvider>
     </GluestackUIProvider>
   )

@@ -6,12 +6,12 @@ const AuthContext = createContext<{
   signIn: () => void
   signOut: () => void
   session?: string | null
-  isLoading: boolean
+  isLoadingSession: boolean
 }>({
   signIn: () => null,
   signOut: () => null,
   session: null,
-  isLoading: false,
+  isLoadingSession: false,
 })
 
 export function useSession() {
@@ -24,7 +24,7 @@ export function useSession() {
 }
 
 export function SessionProvider({ children }: PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState('session')
+  const [[isLoadingSession, session], setSession] = useStorageState('session')
 
   return (
     <AuthContext.Provider
@@ -36,7 +36,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
           setSession(null)
         },
         session,
-        isLoading,
+        isLoadingSession,
       }}
     >
       {children}
