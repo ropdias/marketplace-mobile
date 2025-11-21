@@ -74,6 +74,14 @@ Fonts load asynchronously via `expo-font` in `splash-screen-controller.tsx`:
 
 ## Key Conventions
 
+### Code Comments
+**ALL code comments MUST be written in English**. This includes:
+- Inline comments explaining logic
+- Function/component documentation
+- JSDoc comments
+- TODO/FIXME notes
+- Code examples in documentation
+
 ### Import Ordering
 ESLint enforces automatic import sorting - don't manually organize imports
 
