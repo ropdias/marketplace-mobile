@@ -183,11 +183,11 @@ const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
           <HStack className="min-h-[28px] items-center gap-[4px] py-[6px]">
             <UIIcon
               as={AlertCircle02Icon}
-              className="fill-error flex-shrink-0"
+              className="flex-shrink-0 fill-error"
               height={16}
               width={16}
             />
-            <Text className="font-body-xs text-error flex-1">
+            <Text className="font-body-xs flex-1 text-error">
               {errorMessage}
             </Text>
           </HStack>
