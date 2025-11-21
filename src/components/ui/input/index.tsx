@@ -56,13 +56,16 @@ const inputStyle = tva({
 })
 
 const inputIconStyle = tva({
-  base: 'data-[invalid=true]:fill-error size-[24px] content-center items-center justify-center fill-gray-200',
+  base: 'size-[24px] content-center items-center justify-center fill-gray-200',
   variants: {
     isFilled: {
       true: 'fill-orange-base',
     },
     isFocused: {
       true: 'fill-orange-base',
+    },
+    isInvalid: {
+      true: 'fill-error',
     },
   },
   parentVariants: {
@@ -75,16 +78,6 @@ const inputIconStyle = tva({
       xl: '',
     },
   },
-  compoundVariants: [
-    {
-      isFilled: true,
-      class: 'data-[invalid=true]:fill-error',
-    },
-    {
-      isFocused: true,
-      class: 'data-[invalid=true]:fill-error',
-    },
-  ],
 })
 
 const inputSlotStyle = tva({
@@ -145,6 +138,7 @@ const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
     ref,
   ) {
     const [isFocused, setIsFocused] = React.useState(false)
+    const isInvalid = !!errorMessage
 
     // Determine label color based on focus/filled state
     const labelColor =
@@ -158,8 +152,16 @@ const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
         <UIInput
           ref={ref}
           {...props}
+          isInvalid={isInvalid}
           className={inputStyle({ variant, size, class: className })}
-          context={{ variant, size, isFilled, isFocused, setIsFocused }}
+          context={{
+            variant,
+            size,
+            isFilled,
+            isFocused,
+            setIsFocused,
+            isInvalid,
+          }}
         >
           {children}
         </UIInput>
@@ -196,15 +198,21 @@ const InputIcon = React.forwardRef<
     size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
     isFilled?: boolean
     isFocused?: boolean
+    isInvalid?: boolean
   }
-  const { size: parentSize, isFilled, isFocused } = context
+  const { size: parentSize, isFilled, isFocused, isInvalid } = context
 
   if (typeof size === 'number') {
     return (
       <UIInput.Icon
         ref={ref}
         {...props}
-        className={inputIconStyle({ isFilled, isFocused, class: className })}
+        className={inputIconStyle({
+          isFilled,
+          isFocused,
+          isInvalid,
+          class: className,
+        })}
         size={size}
       />
     )
@@ -216,7 +224,12 @@ const InputIcon = React.forwardRef<
       <UIInput.Icon
         ref={ref}
         {...props}
-        className={inputIconStyle({ isFilled, isFocused, class: className })}
+        className={inputIconStyle({
+          isFilled,
+          isFocused,
+          isInvalid,
+          class: className,
+        })}
       />
     )
   }
@@ -227,6 +240,7 @@ const InputIcon = React.forwardRef<
       className={inputIconStyle({
         isFilled,
         isFocused,
+        isInvalid,
         parentVariants: {
           size: parentSize,
         },
