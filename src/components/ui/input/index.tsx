@@ -34,7 +34,7 @@ cssInterop(PrimitiveIcon, {
 })
 
 const inputStyle = tva({
-  base: 'border-background-300 data-[disabled=true]:hover:border-background-300 flex-row content-center items-center overflow-hidden data-[focus=true]:border-primary-700 data-[hover=true]:border-outline-400 data-[disabled=true]:opacity-40 data-[focus=true]:hover:border-primary-700',
+  base: 'border-background-300 flex-row content-center items-center overflow-hidden data-[focus=true]:border-primary-700 data-[disabled=true]:opacity-40',
 
   variants: {
     size: {
@@ -46,13 +46,13 @@ const inputStyle = tva({
 
     variant: {
       underlined:
-        'rounded-none border-b data-[invalid=true]:border-b-2 data-[invalid=true]:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700 data-[invalid=true]:data-[disabled=true]:hover:border-error-700 data-[invalid=true]:data-[focus=true]:hover:border-error-700 data-[invalid=true]:hover:border-error-700',
+        'rounded-none border-b data-[invalid=true]:border-b-2 data-[invalid=true]:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700',
 
       outline:
-        'rounded border data-[invalid=true]:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700 data-[invalid=true]:data-[disabled=true]:hover:border-error-700 data-[invalid=true]:data-[focus=true]:hover:border-error-700 data-[invalid=true]:hover:border-error-700 data-[focus=true]:web:ring-1 data-[invalid=true]:web:ring-1 data-[focus=true]:web:ring-inset data-[invalid=true]:web:ring-inset data-[focus=true]:web:ring-indicator-primary data-[invalid=true]:web:ring-indicator-error data-[invalid=true]:data-[disabled=true]:hover:web:ring-1 data-[invalid=true]:data-[focus=true]:hover:web:ring-1 data-[invalid=true]:data-[disabled=true]:hover:web:ring-inset data-[invalid=true]:data-[focus=true]:hover:web:ring-inset data-[invalid=true]:data-[disabled=true]:hover:web:ring-indicator-error data-[invalid=true]:data-[focus=true]:hover:web:ring-indicator-error',
+        'rounded border data-[invalid=true]:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700',
 
       rounded:
-        'rounded-full border data-[invalid=true]:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700 data-[invalid=true]:data-[disabled=true]:hover:border-error-700 data-[invalid=true]:data-[focus=true]:hover:border-error-700 data-[invalid=true]:hover:border-error-700 data-[focus=true]:web:ring-1 data-[invalid=true]:web:ring-1 data-[focus=true]:web:ring-inset data-[invalid=true]:web:ring-inset data-[focus=true]:web:ring-indicator-primary data-[invalid=true]:web:ring-indicator-error data-[invalid=true]:data-[disabled=true]:hover:web:ring-1 data-[invalid=true]:data-[focus=true]:hover:web:ring-1 data-[invalid=true]:data-[disabled=true]:hover:web:ring-inset data-[invalid=true]:data-[focus=true]:hover:web:ring-inset data-[invalid=true]:data-[disabled=true]:hover:web:ring-indicator-error data-[invalid=true]:data-[focus=true]:hover:web:ring-indicator-error',
+        'rounded-full border data-[invalid=true]:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700',
     },
   },
 })
@@ -72,7 +72,7 @@ const inputIconStyle = tva({
 })
 
 const inputSlotStyle = tva({
-  base: 'items-center justify-center web:disabled:cursor-not-allowed',
+  base: 'items-center justify-center',
 })
 
 const inputFieldStyle = tva({
@@ -80,13 +80,13 @@ const inputFieldStyle = tva({
   // - text-typography-900: color for typed text
   // - placeholder:text-typography-500: color for placeholder text
   // NativeWind handles these correctly despite the CSS conflict warning
-  base: 'ios:leading-[0px] h-full flex-1 px-3 py-0 text-typography-900 placeholder:text-typography-500 web:cursor-text web:data-[disabled=true]:cursor-not-allowed',
+  base: 'ios:leading-[0px] h-full flex-1 px-3 py-0 text-typography-900 placeholder:text-typography-500',
 
   parentVariants: {
     variant: {
-      underlined: 'px-0 web:outline-none web:outline-0',
-      outline: 'web:outline-none web:outline-0',
-      rounded: 'px-4 web:outline-none web:outline-0',
+      underlined: 'px-0',
+      outline: '',
+      rounded: 'px-4',
     },
 
     size: {
