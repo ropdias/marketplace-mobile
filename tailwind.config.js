@@ -126,7 +126,7 @@ module.exports = {
         white: 'rgb(var(--white)/<alpha-value>)',
         background: 'rgb(var(--background)/<alpha-value>)',
         shape: 'rgb(var(--shape)/<alpha-value>)',
-        error: 'rgb(var(--danger)/<alpha-value>)',
+        error: 'rgb(var(--error)/<alpha-value>)',
         success: 'rgb(var(--success)/<alpha-value>)',
         gray: {
           100: 'rgb(var(--gray-100)/<alpha-value>)',
