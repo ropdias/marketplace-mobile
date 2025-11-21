@@ -41,6 +41,7 @@ export function ProductCard({
           <Image
             source={{ uri: productImageUri }}
             className="h-[96px] w-[148px] rounded-[6px]"
+            alt={productTitle}
           />
         ) : isLocalImage ? (
           <Image
@@ -48,6 +49,7 @@ export function ProductCard({
               PRODUCT_IMAGES[productImageUri as keyof typeof PRODUCT_IMAGES]
             }
             className="h-[96px] w-[148px] rounded-[6px]"
+            alt={productTitle}
           />
         ) : (
           <View className="h-[96px] w-[148px] items-center justify-center rounded-[6px]">
