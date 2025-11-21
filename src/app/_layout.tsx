@@ -3,6 +3,7 @@ import '@/global.css'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'react-native'
 
+import { Box } from '@/components/ui/box'
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import { SessionProvider, useSession } from '@/contexts/auth-context'
 import { SplashScreenController } from '@/splash-screen-controller'
@@ -28,14 +29,16 @@ function RootNavigator() {
   const { session } = useSession()
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Protected guard={!!session}>
-        <Stack.Screen name="(app)" />
-      </Stack.Protected>
+    <Box className="flex-1 bg-background">
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Protected guard={!!session}>
+          <Stack.Screen name="(app)" />
+        </Stack.Protected>
 
-      <Stack.Protected guard={!session}>
-        <Stack.Screen name="login" />
-      </Stack.Protected>
-    </Stack>
+        <Stack.Protected guard={!session}>
+          <Stack.Screen name="login" />
+        </Stack.Protected>
+      </Stack>
+    </Box>
   )
 }
