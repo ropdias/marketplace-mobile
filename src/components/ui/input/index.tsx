@@ -80,6 +80,20 @@ const inputIconStyle = tva({
   },
 })
 
+const inputRightIconStyle = tva({
+  base: 'size-[24px] content-center items-center justify-center fill-gray-300',
+  parentVariants: {
+    size: {
+      '2xs': '',
+      xs: '',
+      sm: '',
+      md: '',
+      lg: '',
+      xl: '',
+    },
+  },
+})
+
 const inputSlotStyle = tva({
   base: 'items-center justify-center',
 })
@@ -250,6 +264,57 @@ const InputIcon = React.forwardRef<
   )
 })
 
+type IInputRightIconProps = React.ComponentProps<typeof UIInput.Icon> &
+  VariantProps<typeof inputRightIconStyle> & {
+    className?: string
+    height?: number
+    width?: number
+  }
+
+const InputRightIcon = React.forwardRef<
+  React.ComponentRef<typeof UIInput.Icon>,
+  IInputRightIconProps
+>(function InputRightIcon({ className, size, ...props }, ref) {
+  const context = useStyleContext(SCOPE) as {
+    size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  }
+  const { size: parentSize } = context
+
+  if (typeof size === 'number') {
+    return (
+      <UIInput.Icon
+        ref={ref}
+        {...props}
+        className={inputRightIconStyle({ class: className })}
+        size={size}
+      />
+    )
+  } else if (
+    (props.height !== undefined || props.width !== undefined) &&
+    size === undefined
+  ) {
+    return (
+      <UIInput.Icon
+        ref={ref}
+        {...props}
+        className={inputRightIconStyle({ class: className })}
+      />
+    )
+  }
+  return (
+    <UIInput.Icon
+      ref={ref}
+      {...props}
+      className={inputRightIconStyle({
+        parentVariants: {
+          size: parentSize,
+        },
+        class: className,
+      })}
+    />
+  )
+})
+
 type IInputSlotProps = React.ComponentProps<typeof UIInput.Slot> &
   VariantProps<typeof inputSlotStyle> & { className?: string }
 
@@ -322,7 +387,8 @@ const InputField = React.forwardRef<
 
 Input.displayName = 'Input'
 InputIcon.displayName = 'InputIcon'
+InputRightIcon.displayName = 'InputRightIcon'
 InputSlot.displayName = 'InputSlot'
 InputField.displayName = 'InputField'
 
-export { Input, InputField, InputIcon, InputSlot }
+export { Input, InputField, InputIcon, InputRightIcon, InputSlot }
