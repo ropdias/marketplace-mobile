@@ -53,9 +53,12 @@ const inputStyle = tva({
 })
 
 const inputIconStyle = tva({
-  base: 'size-[24px] content-center items-center justify-center fill-gray-200 data-[focus=true]:fill-orange-base data-[invalid=true]:fill-danger',
+  base: 'size-[24px] content-center items-center justify-center fill-gray-200 data-[invalid=true]:fill-danger',
   variants: {
     isFilled: {
+      true: 'fill-orange-base',
+    },
+    isFocused: {
       true: 'fill-orange-base',
     },
   },
@@ -87,7 +90,7 @@ const inputFieldStyle = tva({
   // - placeholder:text-gray-200: color for placeholder text
   // NativeWind handles these correctly despite the CSS conflict warning
   // Não usar font-body-md pois o line-height causa desalinhamento do placeholder
-  base: 'flex-1 pb-[5px] pt-[7px] font-poppinsRegular text-[16px] text-gray-400 caret-orange-base placeholder:text-gray-200',
+  base: 'flex-1 pb-[5px] pt-[7px] font-poppinsRegular text-[16px] text-gray-400 caret-orange-base placeholder:text-gray-200 data-[focus=true]:placeholder:text-transparent',
 
   parentVariants: {
     variant: {
@@ -122,12 +125,14 @@ const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
     { className, variant = 'outline', size = 'md', isFilled = false, ...props },
     ref,
   ) {
+    const [isFocused, setIsFocused] = React.useState(false)
+
     return (
       <UIInput
         ref={ref}
         {...props}
         className={inputStyle({ variant, size, class: className })}
-        context={{ variant, size, isFilled }}
+        context={{ variant, size, isFilled, isFocused, setIsFocused }}
       />
     )
   },
@@ -147,15 +152,16 @@ const InputIcon = React.forwardRef<
   const context = useStyleContext(SCOPE) as {
     size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
     isFilled?: boolean
+    isFocused?: boolean
   }
-  const { size: parentSize, isFilled } = context
+  const { size: parentSize, isFilled, isFocused } = context
 
   if (typeof size === 'number') {
     return (
       <UIInput.Icon
         ref={ref}
         {...props}
-        className={inputIconStyle({ isFilled, class: className })}
+        className={inputIconStyle({ isFilled, isFocused, class: className })}
         size={size}
       />
     )
@@ -167,7 +173,7 @@ const InputIcon = React.forwardRef<
       <UIInput.Icon
         ref={ref}
         {...props}
-        className={inputIconStyle({ isFilled, class: className })}
+        className={inputIconStyle({ isFilled, isFocused, class: className })}
       />
     )
   }
@@ -177,6 +183,7 @@ const InputIcon = React.forwardRef<
       {...props}
       className={inputIconStyle({
         isFilled,
+        isFocused,
         parentVariants: {
           size: parentSize,
         },
@@ -210,13 +217,41 @@ type IInputFieldProps = React.ComponentProps<typeof UIInput.Input> &
 const InputField = React.forwardRef<
   React.ComponentRef<typeof UIInput.Input>,
   IInputFieldProps
->(function InputField({ className, ...props }, ref) {
-  const { variant: parentVariant, size: parentSize } = useStyleContext(SCOPE)
+>(function InputField({ className, onFocus, onBlur, ...props }, ref) {
+  const context = useStyleContext(SCOPE) as {
+    variant?: 'underlined' | 'outline' | 'rounded'
+    size?:
+      | '2xs'
+      | 'xs'
+      | 'sm'
+      | 'md'
+      | 'lg'
+      | 'xl'
+      | '2xl'
+      | '3xl'
+      | '4xl'
+      | '5xl'
+      | '6xl'
+    setIsFocused?: (value: boolean) => void
+  }
+  const { variant: parentVariant, size: parentSize, setIsFocused } = context
+
+  const handleFocus = (e: any) => {
+    setIsFocused?.(true)
+    onFocus?.(e)
+  }
+
+  const handleBlur = (e: any) => {
+    setIsFocused?.(false)
+    onBlur?.(e)
+  }
 
   return (
     <UIInput.Input
       ref={ref}
       {...props}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       className={inputFieldStyle({
         parentVariants: {
           variant: parentVariant,
