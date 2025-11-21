@@ -34,41 +34,47 @@ cssInterop(PrimitiveIcon, {
 })
 
 const inputStyle = tva({
-  base: 'border-background-300 flex-row content-center items-center overflow-hidden data-[focus=true]:border-primary-700 data-[disabled=true]:opacity-40',
+  base: 'min-h-[48px] flex-row items-center gap-[8px] rounded-none border-b border-gray-100 px-[2px] data-[focus=true]:border-gray-400 data-[disabled=true]:opacity-40',
 
   variants: {
     size: {
-      xl: 'h-12',
-      lg: 'h-11',
-      md: 'h-10',
-      sm: 'h-9',
+      xl: '',
+      lg: '',
+      md: '',
+      sm: '',
     },
 
     variant: {
-      underlined:
-        'rounded-none border-b data-[invalid=true]:border-b-2 data-[invalid=true]:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700',
-
-      outline:
-        'rounded border data-[invalid=true]:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700',
-
-      rounded:
-        'rounded-full border data-[invalid=true]:border-error-700 data-[invalid=true]:data-[focus=true]:border-error-700',
+      underlined: '',
+      outline: '',
+      rounded: '',
     },
   },
 })
 
 const inputIconStyle = tva({
-  base: 'items-center justify-center fill-none text-typography-400',
-  parentVariants: {
-    size: {
-      '2xs': 'h-3 w-3',
-      xs: 'h-3.5 w-3.5',
-      sm: 'h-4 w-4',
-      md: 'h-[18px] w-[18px]',
-      lg: 'h-5 w-5',
-      xl: 'h-6 w-6',
+  base: 'size-[24px] content-center items-center justify-center fill-gray-200 data-[focus=true]:fill-orange-base data-[invalid=true]:fill-danger',
+  variants: {
+    isFilled: {
+      true: 'fill-orange-base',
     },
   },
+  parentVariants: {
+    size: {
+      '2xs': '',
+      xs: '',
+      sm: '',
+      md: '',
+      lg: '',
+      xl: '',
+    },
+  },
+  compoundVariants: [
+    {
+      isFilled: true,
+      class: 'data-[invalid=true]:fill-danger',
+    },
+  ],
 })
 
 const inputSlotStyle = tva({
@@ -76,40 +82,44 @@ const inputSlotStyle = tva({
 })
 
 const inputFieldStyle = tva({
-  // Both text-typography-900 and placeholder:text-typography-500 are required:
-  // - text-typography-900: color for typed text
-  // - placeholder:text-typography-500: color for placeholder text
+  // Both text-gray-400 and placeholder:text-gray-200 are required:
+  // - text-gray-400: color for typed text
+  // - placeholder:text-gray-200: color for placeholder text
   // NativeWind handles these correctly despite the CSS conflict warning
-  base: 'ios:leading-[0px] h-full flex-1 px-3 py-0 text-typography-900 placeholder:text-typography-500',
+  // Não usar font-body-md pois o line-height causa desalinhamento do placeholder
+  base: 'flex-1 py-[4px] font-poppinsRegular text-[16px] text-gray-400 placeholder:text-gray-200',
 
   parentVariants: {
     variant: {
-      underlined: 'px-0',
+      underlined: '',
       outline: '',
-      rounded: 'px-4',
+      rounded: '',
     },
 
     size: {
-      '2xs': 'text-2xs',
-      xs: 'text-xs',
-      sm: 'text-sm',
-      md: 'text-base',
-      lg: 'text-lg',
-      xl: 'text-xl',
-      '2xl': 'text-2xl',
-      '3xl': 'text-3xl',
-      '4xl': 'text-4xl',
-      '5xl': 'text-5xl',
-      '6xl': 'text-6xl',
+      '2xs': '',
+      xs: '',
+      sm: '',
+      md: '',
+      lg: '',
+      xl: '',
+      '2xl': '',
+      '3xl': '',
+      '4xl': '',
+      '5xl': '',
+      '6xl': '',
     },
   },
 })
 
 type IInputProps = React.ComponentProps<typeof UIInput> &
-  VariantProps<typeof inputStyle> & { className?: string }
+  VariantProps<typeof inputStyle> & {
+    className?: string
+    isFilled?: boolean
+  }
 const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
   function Input(
-    { className, variant = 'outline', size = 'md', ...props },
+    { className, variant = 'outline', size = 'md', isFilled = false, ...props },
     ref,
   ) {
     return (
@@ -117,7 +127,7 @@ const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
         ref={ref}
         {...props}
         className={inputStyle({ variant, size, class: className })}
-        context={{ variant, size }}
+        context={{ variant, size, isFilled }}
       />
     )
   },
@@ -134,14 +144,18 @@ const InputIcon = React.forwardRef<
   React.ComponentRef<typeof UIInput.Icon>,
   IInputIconProps
 >(function InputIcon({ className, size, ...props }, ref) {
-  const { size: parentSize } = useStyleContext(SCOPE)
+  const context = useStyleContext(SCOPE) as {
+    size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+    isFilled?: boolean
+  }
+  const { size: parentSize, isFilled } = context
 
   if (typeof size === 'number') {
     return (
       <UIInput.Icon
         ref={ref}
         {...props}
-        className={inputIconStyle({ class: className })}
+        className={inputIconStyle({ isFilled, class: className })}
         size={size}
       />
     )
@@ -153,7 +167,7 @@ const InputIcon = React.forwardRef<
       <UIInput.Icon
         ref={ref}
         {...props}
-        className={inputIconStyle({ class: className })}
+        className={inputIconStyle({ isFilled, class: className })}
       />
     )
   }
@@ -162,6 +176,7 @@ const InputIcon = React.forwardRef<
       ref={ref}
       {...props}
       className={inputIconStyle({
+        isFilled,
         parentVariants: {
           size: parentSize,
         },
