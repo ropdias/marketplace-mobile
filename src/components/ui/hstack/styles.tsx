@@ -8,14 +8,14 @@ export const hstackStyle = tva({
   base: `flex-row ${baseStyle}`,
   variants: {
     space: {
-      xs: 'gap-1',
-      sm: 'gap-2',
-      md: 'gap-3',
-      lg: 'gap-4',
-      xl: 'gap-5',
-      '2xl': 'gap-6',
-      '3xl': 'gap-7',
-      '4xl': 'gap-8',
+      xs: 'gap-[4px]',
+      sm: 'gap-[8px]',
+      md: 'gap-[12px]',
+      lg: 'gap-[16px]',
+      xl: 'gap-[20px]',
+      '2xl': 'gap-[24px]',
+      '3xl': 'gap-[28px]',
+      '4xl': 'gap-[32px]',
     },
     reversed: {
       true: 'flex-row-reverse',

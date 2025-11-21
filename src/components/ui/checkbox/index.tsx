@@ -66,7 +66,7 @@ cssInterop(PrimitiveIcon, {
 })
 
 const checkboxStyle = tva({
-  base: 'group/checkbox flex-row items-center justify-start gap-2',
+  base: 'group/checkbox flex-row items-center justify-start gap-[8px]',
   variants: {
     size: {
       lg: '',
@@ -77,7 +77,7 @@ const checkboxStyle = tva({
 })
 
 const checkboxIndicatorStyle = tva({
-  base: 'size-5 items-center justify-center rounded-[4px] border border-gray-100 bg-transparent data-[active=true]:data-[checked=true]:border-orange-dark data-[checked=true]:border-orange-dark data-[invalid=true]:border-error-700 data-[active=true]:data-[checked=true]:bg-orange-base data-[checked=true]:bg-orange-base data-[disabled=true]:opacity-40',
+  base: 'size-[20px] items-center justify-center rounded-[4px] border border-gray-100 bg-transparent data-[active=true]:data-[checked=true]:border-orange-dark data-[checked=true]:border-orange-dark data-[invalid=true]:border-error-700 data-[active=true]:data-[checked=true]:bg-orange-base data-[checked=true]:bg-orange-base data-[disabled=true]:opacity-40',
   parentVariants: {
     size: {
       lg: '',
