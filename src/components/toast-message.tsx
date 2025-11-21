@@ -24,7 +24,7 @@ export function ToastMessage({
       <HStack className="gap-[8px]">
         <Icon
           as={AlertCircle02Icon}
-          size="xs"
+          size="sm"
           className={`mt-[4px] ${iconColor}`}
         />
         <VStack>
