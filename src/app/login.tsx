@@ -16,12 +16,12 @@ export default function Login() {
   }
 
   return (
-    <View className="flex-1 items-center justify-center">
+    <View className="flex-1 items-center justify-center gap-4">
       <TouchableOpacity onPress={login}>
-        <Text className="font-title-lg p-1">Login</Text>
+        <Text className="font-title-lg">Login</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={register}>
-        <Text className="font-title-md p-1">Register</Text>
+        <Text className="font-title-md">Register</Text>
       </TouchableOpacity>
     </View>
   )
