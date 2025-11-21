@@ -87,7 +87,7 @@ const inputFieldStyle = tva({
   // - placeholder:text-gray-200: color for placeholder text
   // NativeWind handles these correctly despite the CSS conflict warning
   // Não usar font-body-md pois o line-height causa desalinhamento do placeholder
-  base: 'flex-1 py-[4px] font-poppinsRegular text-[16px] text-gray-400 placeholder:text-gray-200',
+  base: 'flex-1 pb-[5px] pt-[7px] font-poppinsRegular text-[16px] text-gray-400 caret-orange-base placeholder:text-gray-200',
 
   parentVariants: {
     variant: {
