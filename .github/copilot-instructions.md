@@ -131,9 +131,14 @@ When adding new GluestackUI components, remove web-specific properties to optimi
 - `web:select-none`
 
 **2. Remove desktop/web interaction states** (not supported in touch interfaces):
-- `data-[hover=true]:*` - Hover doesn't exist on mobile touch
-- `data-[active=true]:*` - Different concept in mobile (use `data-[pressed=true]` if needed)
+- `data-[hover=true]:*` - Hover doesn't exist on mobile touch (mouse-specific)
 - `data-[focus-visible=true]:*` - Keyboard navigation concept (desktop only)
+
+**IMPORTANT - Keep these touch-based states:**
+- ✅ **KEEP** `data-[active=true]:*` - This WORKS in React Native via Pressable's `onPressIn`/`onPressOut` and provides native touch feedback
+- ✅ **KEEP** `data-[pressed=true]:*` - Alternative naming for active state, also works with Pressable
+- ✅ **KEEP** `data-[focus=true]:*` - Works with Pressable focus states
+- The `active` state is triggered during touch and is essential for proper mobile UX feedback
 
 **3. Remove web-only visual effects**:
 - `underline` in hover/active states
@@ -159,15 +164,15 @@ const buttonStyle = tva({
   }
 })
 
-// After (React Native only)
+// After (React Native only) - Note: KEEP data-[active] for touch feedback!
 const buttonStyle = tva({
   base: 'flex-row',
   variants: {
     variant: {
-      solid: 'bg-primary-500',
+      solid: 'bg-primary-500 data-[active=true]:bg-primary-700',
     }
   }
 })
 ```
 
-Use `data-[pressed=true]:*` for touch feedback if needed, as it's the native mobile equivalent of press states.
+**Touch state priority**: `data-[active=true]` and `data-[pressed=true]` work natively with Pressable's touch events (onPressIn/onPressOut) and should be preserved for proper mobile UX.
