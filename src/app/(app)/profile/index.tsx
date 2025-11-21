@@ -1,5 +1,6 @@
 import { router } from 'expo-router'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useSession } from '@/contexts/auth-context'
 
@@ -12,11 +13,11 @@ export default function Profile() {
   }
 
   return (
-    <View className="flex-1 items-center justify-center">
+    <SafeAreaView className="flex-1 items-center justify-center">
       <Text className="text-2xl font-bold">Profile</Text>
       <TouchableOpacity onPress={logout}>
         <Text className="text-2xl font-bold">Logout</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   )
 }
