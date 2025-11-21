@@ -2153,3 +2153,19 @@ const Mail02Icon = createIcon({
 
 Mail02Icon.displayName = 'Mail02Icon'
 export { Mail02Icon }
+
+const CheckSolidIcon = createIcon({
+  Root: Svg,
+  viewBox: '0 0 12 10',
+  path: (
+    <>
+      <Path
+        stroke="none"
+        d="M8.83103 0.324784C9.2121 -0.0944052 9.86623 -0.109975 10.2668 0.290618L11.4299 1.45368C11.8173 1.84117 11.8173 2.46941 11.4299 2.8569L4.57739 9.70939C4.18992 10.0969 3.56167 10.0969 3.17418 9.70939L0.290613 6.82582C-0.0968709 6.43834 -0.0968709 5.81006 0.290613 5.42258L1.18973 4.52346C1.57722 4.13598 2.20547 4.13598 2.59295 4.52346L3.86113 5.79163L8.83103 0.324784Z"
+      />
+    </>
+  ),
+})
+
+CheckSolidIcon.displayName = 'CheckSolidIcon'
+export { CheckSolidIcon }
