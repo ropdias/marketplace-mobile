@@ -43,8 +43,9 @@ const buttonStyle = tva({
       default: '',
     },
     variant: {
-      solid: 'bg-orange-base',
-      outline: 'border border-orange-base bg-transparent',
+      solid: 'bg-orange-base data-[active=true]:bg-orange-dark',
+      outline:
+        'border border-orange-base bg-transparent data-[active=true]:bg-orange-base',
       link: 'bg-transparent',
     },
     size: {
@@ -63,8 +64,8 @@ const buttonTextStyle = tva({
     },
     variant: {
       solid: 'text-white',
-      outline: 'text-orange-base',
-      link: 'text-orange-base',
+      outline: 'text-orange-base data-[active=true]:text-white',
+      link: 'text-orange-base data-[active=true]:text-orange-dark',
     },
     size: {
       medium: 'font-action-md',
@@ -75,7 +76,7 @@ const buttonTextStyle = tva({
 })
 
 const buttonIconStyle = tva({
-  base: 'fill-none',
+  base: '',
   parentVariants: {
     action: {
       default: '',
@@ -91,6 +92,23 @@ const buttonIconStyle = tva({
       link: 'size-5',
     },
   },
+  variants: {
+    active: {
+      true: '',
+    },
+  },
+  parentCompoundVariants: [
+    {
+      active: true,
+      variant: 'outline',
+      class: 'fill-white',
+    },
+    {
+      active: true,
+      variant: 'link',
+      class: 'fill-orange-dark',
+    },
+  ],
 })
 
 const buttonGroupStyle = tva({
@@ -134,17 +152,30 @@ const Button = React.forwardRef<
       variant = 'solid',
       size = 'medium',
       action = 'default',
+      children,
       ...props
     },
     ref,
   ) => {
+    const [pressed, setPressed] = React.useState(false)
+
     return (
       <UIButton
         ref={ref}
         {...props}
         className={buttonStyle({ variant, size, action, class: className })}
-        context={{ variant, size, action }}
-      />
+        context={{ variant, size, action, pressed }}
+        onPressIn={(e) => {
+          setPressed(true)
+          props.onPressIn?.(e)
+        }}
+        onPressOut={(e) => {
+          setPressed(false)
+          props.onPressOut?.(e)
+        }}
+      >
+        {children}
+      </UIButton>
     )
   },
 )
@@ -199,14 +230,20 @@ const ButtonIcon = React.forwardRef<
     variant: parentVariant,
     size: parentSize,
     action: parentAction,
+    pressed,
   } = useStyleContext(SCOPE)
+
+  const active = pressed || false
 
   if (typeof size === 'number') {
     return (
       <UIButton.Icon
         ref={ref}
         {...props}
-        className={buttonIconStyle({ class: className })}
+        className={buttonIconStyle({
+          active,
+          class: className,
+        })}
         size={size}
       />
     )
@@ -218,7 +255,10 @@ const ButtonIcon = React.forwardRef<
       <UIButton.Icon
         ref={ref}
         {...props}
-        className={buttonIconStyle({ class: className })}
+        className={buttonIconStyle({
+          active,
+          class: className,
+        })}
       />
     )
   }
@@ -231,6 +271,7 @@ const ButtonIcon = React.forwardRef<
           variant: parentVariant,
           action: parentAction,
         },
+        active,
         size,
         class: className,
       })}
