@@ -26,6 +26,7 @@ const iconStyle = tva({
       md: 'h-[18px] w-[18px]',
       lg: 'h-5 w-5',
       xl: 'h-6 w-6',
+      productDefaultIcon: 'h-[32px] w-[32px]',
     },
   },
 })
