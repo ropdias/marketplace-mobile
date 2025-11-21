@@ -11,7 +11,8 @@ import { cssInterop } from 'nativewind'
 import React from 'react'
 import { Pressable, Text, TextInput, View } from 'react-native'
 
-import { VStack } from '../vstack'
+import { HStack } from '../hstack'
+import { AlertCircle02Icon } from '../icon'
 
 const SCOPE = 'INPUT'
 
@@ -55,7 +56,7 @@ const inputStyle = tva({
 })
 
 const inputIconStyle = tva({
-  base: 'size-[24px] content-center items-center justify-center fill-gray-200 data-[invalid=true]:fill-danger',
+  base: 'data-[invalid=true]:fill-error size-[24px] content-center items-center justify-center fill-gray-200',
   variants: {
     isFilled: {
       true: 'fill-orange-base',
@@ -77,11 +78,11 @@ const inputIconStyle = tva({
   compoundVariants: [
     {
       isFilled: true,
-      class: 'data-[invalid=true]:fill-danger',
+      class: 'data-[invalid=true]:fill-error',
     },
     {
       isFocused: true,
-      class: 'data-[invalid=true]:fill-danger',
+      class: 'data-[invalid=true]:fill-error',
     },
   ],
 })
@@ -126,6 +127,7 @@ type IInputProps = React.ComponentProps<typeof UIInput> &
     className?: string
     isFilled?: boolean
     label?: string
+    errorMessage?: string
   }
 
 const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
@@ -136,6 +138,7 @@ const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
       size = 'md',
       isFilled = false,
       label,
+      errorMessage,
       children,
       ...props
     },
@@ -160,6 +163,19 @@ const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
         >
           {children}
         </UIInput>
+        {errorMessage && (
+          <HStack className="min-h-[28px] items-center gap-[4px] py-[6px]">
+            <UIIcon
+              as={AlertCircle02Icon}
+              className="fill-error flex-shrink-0"
+              height={16}
+              width={16}
+            />
+            <Text className="font-body-xs text-error flex-1">
+              {errorMessage}
+            </Text>
+          </HStack>
+        )}
       </View>
     )
   },
