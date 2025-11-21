@@ -9,7 +9,9 @@ import {
 } from '@gluestack-ui/utils/nativewind-utils'
 import { cssInterop } from 'nativewind'
 import React from 'react'
-import { Pressable, TextInput, View } from 'react-native'
+import { Pressable, Text, TextInput, View } from 'react-native'
+
+import { VStack } from '../vstack'
 
 const SCOPE = 'INPUT'
 
@@ -77,6 +79,10 @@ const inputIconStyle = tva({
       isFilled: true,
       class: 'data-[invalid=true]:fill-danger',
     },
+    {
+      isFocused: true,
+      class: 'data-[invalid=true]:fill-danger',
+    },
   ],
 })
 
@@ -119,21 +125,42 @@ type IInputProps = React.ComponentProps<typeof UIInput> &
   VariantProps<typeof inputStyle> & {
     className?: string
     isFilled?: boolean
+    label?: string
   }
+
 const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
   function Input(
-    { className, variant = 'outline', size = 'md', isFilled = false, ...props },
+    {
+      className,
+      variant = 'outline',
+      size = 'md',
+      isFilled = false,
+      label,
+      children,
+      ...props
+    },
     ref,
   ) {
     const [isFocused, setIsFocused] = React.useState(false)
 
+    // Determine label color based on focus/filled state
+    const labelColor =
+      isFocused || isFilled ? 'text-orange-base' : 'text-gray-300'
+
     return (
-      <UIInput
-        ref={ref}
-        {...props}
-        className={inputStyle({ variant, size, class: className })}
-        context={{ variant, size, isFilled, isFocused, setIsFocused }}
-      />
+      <View className="w-full flex-col">
+        {label && (
+          <Text className={`font-label-md ${labelColor}`}>{label}</Text>
+        )}
+        <UIInput
+          ref={ref}
+          {...props}
+          className={inputStyle({ variant, size, class: className })}
+          context={{ variant, size, isFilled, isFocused, setIsFocused }}
+        >
+          {children}
+        </UIInput>
+      </View>
     )
   },
 )
