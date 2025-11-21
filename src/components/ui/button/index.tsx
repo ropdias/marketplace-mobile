@@ -37,7 +37,7 @@ cssInterop(PrimitiveIcon, {
 })
 
 const buttonStyle = tva({
-  base: 'group/button flex-row items-center justify-center rounded-[10px] data-[disabled=true]:opacity-40',
+  base: 'group/button flex-row items-center justify-between rounded-[10px] data-[disabled=true]:opacity-40',
   variants: {
     action: {
       default: '',
