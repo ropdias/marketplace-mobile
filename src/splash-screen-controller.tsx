@@ -29,7 +29,9 @@ export function SplashScreenController({
 
   useEffect(() => {
     if (!isLoadingSession && fontsLoaded) {
-      SplashScreen.hideAsync()
+      SplashScreen.hideAsync().catch((err) => {
+        console.warn('Error hiding splash screen:', err)
+      })
     }
   }, [isLoadingSession, fontsLoaded])
 
