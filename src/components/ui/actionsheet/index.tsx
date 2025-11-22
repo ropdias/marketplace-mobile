@@ -103,14 +103,14 @@ cssInterop(PrimitiveIcon, {
   },
 })
 
-const actionsheetStyle = tva({ base: 'h-full w-full web:pointer-events-none' })
+const actionsheetStyle = tva({ base: 'h-full w-full' })
 
 const actionsheetContentStyle = tva({
-  base: 'bg-background-0 pb-safe items-center rounded-tl-3xl rounded-tr-3xl border border-b-0 border-outline-100 p-5 pt-2 shadow-hard-5 web:pointer-events-auto web:select-none',
+  base: 'pb-safe items-center rounded-tl-[24px] rounded-tr-[24px] border border-b-0 border-outline-100 bg-white p-[24px] pt-[8px] shadow-hard-5',
 })
 
 const actionsheetItemStyle = tva({
-  base: 'hover:bg-background-50 active:bg-background-100 data-[focus=true]:bg-background-100 web:data-[focus-visible=true]:bg-background-100 w-full flex-row items-center gap-2 rounded-sm p-3 data-[disabled=true]:opacity-40 data-[disabled=true]:web:pointer-events-auto data-[disabled=true]:web:cursor-not-allowed web:data-[focus-visible=true]:outline-indicator-primary',
+  base: 'data-[focus=true]:bg-background-100 w-full flex-row items-center gap-2 rounded-sm p-3 data-[disabled=true]:opacity-40',
 })
 
 const actionsheetItemTextStyle = tva({
@@ -145,15 +145,15 @@ const actionsheetItemTextStyle = tva({
 })
 
 const actionsheetDragIndicatorStyle = tva({
-  base: 'bg-background-400 h-1 w-16 rounded-full',
+  base: 'h-[4px] w-[56px] bg-gray-100 opacity-30',
 })
 
 const actionsheetDragIndicatorWrapperStyle = tva({
-  base: 'w-full items-center py-1',
+  base: 'w-full items-center pb-[32px] pt-[4px]',
 })
 
 const actionsheetBackdropStyle = tva({
-  base: 'bg-background-dark absolute bottom-0 left-0 right-0 top-0 web:pointer-events-auto web:cursor-default',
+  base: 'bg-background-dark absolute bottom-0 left-0 right-0 top-0',
 })
 
 const actionsheetScrollViewStyle = tva({
@@ -173,7 +173,7 @@ const actionsheetSectionListStyle = tva({
 })
 
 const actionsheetSectionHeaderTextStyle = tva({
-  base: 'font-heading my-0 p-3 font-bold uppercase leading-5 text-typography-500',
+  base: 'font-heading my-0 p-[12px] font-bold uppercase leading-[20px] text-typography-500',
   variants: {
     isTruncated: {
       true: '',
@@ -218,12 +218,12 @@ const actionsheetIconStyle = tva({
   base: 'text-background-500 fill-none',
   variants: {
     size: {
-      '2xs': 'h-3 w-3',
-      xs: 'h-3.5 w-3.5',
-      sm: 'h-4 w-4',
+      '2xs': 'h-[12px] w-[12px]',
+      xs: 'h-[14px] w-[14px]',
+      sm: 'h-[16px] w-[16px]',
       md: 'h-[18px] w-[18px]',
-      lg: 'h-5 w-5',
-      xl: 'h-6 w-6',
+      lg: 'h-[20px] w-[20px]',
+      xl: 'h-[24px] w-[24px]',
     },
   },
 })
