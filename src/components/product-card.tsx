@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native'
+import { router } from 'expo-router'
+import { Text, TouchableOpacity, View } from 'react-native'
 
 import { currencyApplyMask } from '@/utils/currency-apply-mask'
 
@@ -18,13 +19,15 @@ const PRODUCT_IMAGES = {
   'product-6': require('@/assets/product-6.jpg'),
 } as const
 
-interface ProductCardProps {
+export interface ProductCardProps {
+  productId: string
   productTitle: string
   productPriceInCents: string
   productImageUri?: string // For remote images (full URL) or local image name (e.g., 'product-1')
 }
 
 export function ProductCard({
+  productId,
   productTitle,
   productPriceInCents,
   productImageUri,
@@ -34,42 +37,48 @@ export function ProductCard({
   const isLocalImage =
     productImageUri && productImageUri in PRODUCT_IMAGES && !isRemoteImage
 
+  function goToProduct() {
+    router.push('/product')
+  }
+
   return (
-    <Card>
-      <VStack className="gap-[4px]">
-        {isRemoteImage ? (
-          <Image
-            source={{ uri: productImageUri }}
-            className="h-[96px] w-[148px] rounded-[6px]"
-            alt={productTitle}
-          />
-        ) : isLocalImage ? (
-          <Image
-            source={
-              PRODUCT_IMAGES[productImageUri as keyof typeof PRODUCT_IMAGES]
-            }
-            className="h-[96px] w-[148px] rounded-[6px]"
-            alt={productTitle}
-          />
-        ) : (
-          <View className="h-[96px] w-[148px] items-center justify-center rounded-[6px]">
-            <Icon
-              as={PackageIcon}
-              size="productDefaultIcon"
-              className="fill-orange-base"
+    <TouchableOpacity onPress={goToProduct}>
+      <Card>
+        <VStack className="gap-[4px]">
+          {isRemoteImage ? (
+            <Image
+              source={{ uri: productImageUri }}
+              className="h-[96px] w-[148px] rounded-[6px]"
+              alt={productTitle}
             />
-          </View>
-        )}
-        <VStack className="gap-[2px] p-[4px]">
-          <Text className="font-body-xs text-gray-400">{productTitle}</Text>
-          <HStack className="items-baseline gap-[4px]">
-            <Text className="font-label-sm text-gray-500">R$</Text>
-            <Text className="font-title-xs text-gray-500">
-              {currencyApplyMask(productPriceInCents)}
-            </Text>
-          </HStack>
+          ) : isLocalImage ? (
+            <Image
+              source={
+                PRODUCT_IMAGES[productImageUri as keyof typeof PRODUCT_IMAGES]
+              }
+              className="h-[96px] w-[148px] rounded-[6px]"
+              alt={productTitle}
+            />
+          ) : (
+            <View className="h-[96px] w-[148px] items-center justify-center rounded-[6px]">
+              <Icon
+                as={PackageIcon}
+                size="productDefaultIcon"
+                className="fill-orange-base"
+              />
+            </View>
+          )}
+          <VStack className="gap-[2px] p-[4px]">
+            <Text className="font-body-xs text-gray-400">{productTitle}</Text>
+            <HStack className="items-baseline gap-[4px]">
+              <Text className="font-label-sm text-gray-500">R$</Text>
+              <Text className="font-title-xs text-gray-500">
+                {currencyApplyMask(productPriceInCents)}
+              </Text>
+            </HStack>
+          </VStack>
         </VStack>
-      </VStack>
-    </Card>
+      </Card>
+    </TouchableOpacity>
   )
 }
