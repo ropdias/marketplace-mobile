@@ -39,6 +39,8 @@ function RootNavigator() {
           <Stack.Screen name="login" />
           <Stack.Screen name="register" />
         </Stack.Protected>
+
+        <Stack.Screen name="index" />
       </Stack>
     </Box>
   )
