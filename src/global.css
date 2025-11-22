@@ -13,6 +13,7 @@
   .font-body-md { @apply font-poppinsRegular text-[16px] leading-[22px]; }
   .font-body-sm { @apply font-poppinsRegular text-[14px] leading-[20px]; }
   .font-body-xs { @apply font-poppinsRegular text-[12px] leading-[17px]; }
+  .font-body-xs-bold { @apply font-poppinsBold text-[12px] leading-[17px]; }
   
   /* Labels - 120% line-height (font-size * 1.2) */
   .font-label-md { @apply font-poppinsMedium text-[12px] leading-[14px] uppercase; }

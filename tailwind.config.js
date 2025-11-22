@@ -148,6 +148,7 @@ module.exports = {
         dmSans: ['DMSans_700Bold'],
         poppinsRegular: ['Poppins_400Regular'],
         poppinsMedium: ['Poppins_500Medium'],
+        poppinsBold: ['Poppins_700Bold'],
       },
       fontWeight: {
         extrablack: '950',

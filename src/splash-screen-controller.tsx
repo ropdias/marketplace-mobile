@@ -2,6 +2,7 @@ import { DMSans_700Bold } from '@expo-google-fonts/dm-sans'
 import {
   Poppins_400Regular,
   Poppins_500Medium,
+  Poppins_700Bold,
 } from '@expo-google-fonts/poppins'
 import { useFonts } from 'expo-font'
 import { SplashScreen } from 'expo-router'
@@ -23,6 +24,7 @@ export function SplashScreenController({
     DMSans_700Bold,
     Poppins_400Regular,
     Poppins_500Medium,
+    Poppins_700Bold,
   })
 
   const fontsLoaded = loaded || error
