@@ -70,7 +70,7 @@ const buttonTextStyle = tva({
     size: {
       medium: 'font-action-md',
       small: 'font-action-sm',
-      link: 'font-action-sm pb-[5px] pt-[7px] leading-none',
+      link: 'font-action-sm',
     },
   },
 })
