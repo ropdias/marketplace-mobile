@@ -7,7 +7,7 @@ import { Image } from '@/components/ui/image'
 
 import { Button, ButtonIcon, ButtonText } from './ui/button'
 import { HStack } from './ui/hstack'
-import { ArrowRight02Icon, Search01Icon } from './ui/icon'
+import { ArrowRight02Icon, FilterVerticalIcon, Search01Icon } from './ui/icon'
 import { Input, InputField, InputIcon } from './ui/input'
 import { VStack } from './ui/vstack'
 
@@ -46,8 +46,8 @@ export function HomeHeader() {
         </HStack>
         <VStack className="w-full items-start gap-[4px]">
           <Text className="font-body-sm text-gray-500">Explore produtos</Text>
-          <HStack>
-            <Input isFilled={search.length > 0}>
+          <HStack className="w-full items-end gap-[16px]">
+            <Input isFilled={search.length > 0} className="flex-1">
               <InputIcon as={Search01Icon} />
               <InputField
                 placeholder="Pesquisar"
@@ -55,6 +55,13 @@ export function HomeHeader() {
                 onChangeText={setSearch}
               />
             </Input>
+            <Button
+              variant="outline"
+              size="small"
+              className="h-[40px] w-[40px] items-center justify-center p-0"
+            >
+              <ButtonIcon as={FilterVerticalIcon} />
+            </Button>
           </HStack>
         </VStack>
       </VStack>
