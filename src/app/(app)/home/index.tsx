@@ -1,5 +1,7 @@
-import { FlatList, ListRenderItem } from 'react-native'
+import { useState } from 'react'
+import { FlatList, ListRenderItem, View } from 'react-native'
 
+import { Filter } from '@/components/filter'
 import { ProductCard, ProductCardProps } from '@/components/product-card'
 
 // Mock data - replace with API call
@@ -67,6 +69,8 @@ const PRODUCTS: ProductCardProps[] = [
 ]
 
 export default function Home() {
+  const [showFilter, setShowFilter] = useState(false)
+
   const renderProduct: ListRenderItem<ProductCardProps> = ({ item }) => (
     <ProductCard
       productId={item.productId}
@@ -77,15 +81,18 @@ export default function Home() {
   )
 
   return (
-    <FlatList
-      data={PRODUCTS}
-      renderItem={renderProduct}
-      keyExtractor={(item) => item.productId}
-      numColumns={2}
-      showsVerticalScrollIndicator={false}
-      contentContainerClassName="p-[16px] gap-[8px]"
-      columnWrapperClassName="justify-around gap-[8px]"
-      className="w-full bg-background"
-    />
+    <View>
+      <Filter showFilter={showFilter} setShowFilter={setShowFilter} />
+      <FlatList
+        data={PRODUCTS}
+        renderItem={renderProduct}
+        keyExtractor={(item) => item.productId}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        contentContainerClassName="p-[16px] gap-[8px]"
+        columnWrapperClassName="justify-around gap-[8px]"
+        className="w-full bg-background"
+      />
+    </View>
   )
 }
