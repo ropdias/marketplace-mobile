@@ -31,6 +31,7 @@ export default function ComponentTest() {
       <View className="flex-1 items-center justify-center gap-4">
         <Text className="font-title-lg">Login Example</Text>
         <ProductCard
+          productId="1"
           productPriceInCents="120090"
           productTitle="Sofá"
           productImageUri="product-1"
