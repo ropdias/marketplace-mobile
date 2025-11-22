@@ -59,7 +59,7 @@ cssInterop(AnimatedPressable, { className: 'style' })
 cssInterop(MotionView, { className: 'style' })
 
 const drawerStyle = tva({
-  base: 'relative h-full w-full web:pointer-events-none',
+  base: 'relative h-full w-full',
   variants: {
     size: {
       sm: '',
@@ -77,11 +77,11 @@ const drawerStyle = tva({
 })
 
 const drawerBackdropStyle = tva({
-  base: 'bg-background-dark absolute bottom-0 left-0 right-0 top-0 web:cursor-default',
+  base: 'bg-background-dark absolute bottom-0 left-0 right-0 top-0',
 })
 
 const drawerContentStyle = tva({
-  base: 'bg-background-0 absolute overflow-scroll border-outline-100 p-6',
+  base: 'bg-background-0 absolute overflow-scroll border-outline-100 p-[24px]',
   parentVariants: {
     size: {
       sm: 'w-1/4',
@@ -141,7 +141,7 @@ const drawerContentStyle = tva({
 })
 
 const drawerCloseButtonStyle = tva({
-  base: 'data-[focus-visible=true]:web:bg-background-100 z-10 cursor-pointer rounded web:outline-0',
+  base: 'z-10 rounded',
 })
 
 const drawerHeaderStyle = tva({
@@ -149,7 +149,7 @@ const drawerHeaderStyle = tva({
 })
 
 const drawerBodyStyle = tva({
-  base: 'mb-6 mt-4 shrink-0',
+  base: 'mb-[24px] mt-[16px] shrink-0',
 })
 
 const drawerFooterStyle = tva({
