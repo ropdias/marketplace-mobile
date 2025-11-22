@@ -1,3 +1,4 @@
+import { router } from 'expo-router'
 import { useState } from 'react'
 import { ScrollView, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -32,6 +33,10 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  function login() {
+    router.navigate('/login')
+  }
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-white">
@@ -117,7 +122,7 @@ export default function Register() {
                   </InputSlot>
                 </Input>
               </VStack>
-              <Button variant="solid">
+              <Button variant="solid" onPress={login}>
                 <ButtonText>Cadastrar</ButtonText>
                 <ButtonIcon as={ArrowRight02Icon} />
               </Button>
@@ -127,7 +132,7 @@ export default function Register() {
             <Text className="font-body-md text-gray-300">
               Já tem uma conta?
             </Text>
-            <Button variant="outline">
+            <Button variant="outline" onPress={login}>
               <ButtonText>Acessar</ButtonText>
               <ButtonIcon as={ArrowRight02Icon} />
             </Button>
