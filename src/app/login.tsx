@@ -38,7 +38,7 @@ export default function Login() {
   }
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-background">
+    <SafeAreaView className="flex-1 items-center justify-center bg-white">
       <VStack className="w-full flex-1 items-center justify-between p-[40px]">
         <VStack className="w-full items-center gap-[61px]">
           <VStack className="w-full items-center gap-[32px]">
@@ -47,7 +47,7 @@ export default function Login() {
               <Text className="font-title-lg text-gray-500">
                 Acesse sua conta
               </Text>
-              <Text className="font-body-sm text-gray-300">
+              <Text className="font-body-sm text-center text-gray-300">
                 Informe seu e-mail e senha para entrar
               </Text>
             </VStack>
