@@ -4,11 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function Home() {
   function goToProduct() {
-    router.push('/home/product')
-  }
-
-  function openFilter() {
-    // open drawer component here
+    router.push('/product')
   }
 
   return (
@@ -16,9 +12,6 @@ export default function Home() {
       <Text className="text-2xl font-bold">Home</Text>
       <TouchableOpacity onPress={goToProduct}>
         <Text className="text-2xl font-bold">Product</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={openFilter}>
-        <Text className="text-2xl font-bold">Filter</Text>
       </TouchableOpacity>
     </SafeAreaView>
   )
