@@ -51,7 +51,7 @@ const buttonStyle = tva({
     size: {
       medium: 'h-[56px] gap-[12px] px-[20px]',
       small: 'h-[40px] gap-[8px] px-[16px]',
-      link: 'h-[24px] gap-[8px] p-[2px]',
+      link: 'h-[24px] gap-[8px] px-[2px]',
     },
   },
 })
@@ -70,7 +70,7 @@ const buttonTextStyle = tva({
     size: {
       medium: 'font-action-md',
       small: 'font-action-sm',
-      link: 'font-action-sm',
+      link: 'font-action-sm pb-[5px] pt-[7px] leading-none',
     },
   },
 })
@@ -87,9 +87,9 @@ const buttonIconStyle = tva({
       link: 'fill-orange-base',
     },
     size: {
-      medium: 'size-6',
-      small: 'size-5',
-      link: 'size-5',
+      medium: 'size-[24px]',
+      small: 'size-[20px]',
+      link: 'size-[20px]',
     },
   },
   variants: {
