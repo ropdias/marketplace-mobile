@@ -29,7 +29,7 @@ function RootNavigator() {
   const { session } = useSession()
 
   return (
-    <Box className="flex-1 bg-background">
+    <Box className="flex-1 bg-white">
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Protected guard={!!session}>
           <Stack.Screen name="(app)" />
@@ -37,6 +37,7 @@ function RootNavigator() {
 
         <Stack.Protected guard={!session}>
           <Stack.Screen name="login" />
+          <Stack.Screen name="register" />
         </Stack.Protected>
       </Stack>
     </Box>
