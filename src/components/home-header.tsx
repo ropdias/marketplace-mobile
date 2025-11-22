@@ -18,9 +18,9 @@ export function HomeHeader() {
     router.push('/profile')
   }
 
-  function openFilter() {
-    // open drawer component here
-  }
+  //   function openFilter() {
+  //     // open drawer component here
+  //   }
 
   return (
     <SafeAreaView edges={['top']} className="bg-white">
