@@ -77,7 +77,7 @@ const checkboxStyle = tva({
 })
 
 const checkboxIndicatorStyle = tva({
-  base: 'size-[20px] items-center justify-center rounded-[4px] border border-gray-100 bg-transparent data-[active=true]:data-[checked=true]:border-orange-dark data-[checked=true]:border-orange-dark data-[invalid=true]:border-error-700 data-[active=true]:data-[checked=true]:bg-orange-base data-[checked=true]:bg-orange-base data-[disabled=true]:opacity-40',
+  base: 'data-[invalid=true]:border-error-700 size-[20px] items-center justify-center rounded-[4px] border border-gray-100 bg-transparent data-[active=true]:data-[checked=true]:border-orange-dark data-[checked=true]:border-orange-dark data-[active=true]:data-[checked=true]:bg-orange-base data-[checked=true]:bg-orange-base data-[disabled=true]:opacity-40',
   parentVariants: {
     size: {
       lg: '',
@@ -99,7 +99,7 @@ const checkboxLabelStyle = tva({
 })
 
 const checkboxIconStyle = tva({
-  base: 'size-3 fill-white',
+  base: 'size-[12px] fill-white',
   parentVariants: {
     size: {
       sm: '',
