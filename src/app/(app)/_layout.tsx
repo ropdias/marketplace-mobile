@@ -38,7 +38,8 @@ export default function AppLayout() {
         name="product"
         options={{
           headerShown: false,
-          href: null,
+          href: null, // Hidden from tab bar
+          tabBarStyle: { display: 'none' }, // No tab bar when active
         }}
       />
       <Tabs.Screen
