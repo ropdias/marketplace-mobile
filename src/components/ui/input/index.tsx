@@ -159,7 +159,7 @@ const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
       isFocused || isFilled ? 'text-orange-base' : 'text-gray-300'
 
     return (
-      <View className="w-full flex-col">
+      <View className={`flex-col ${className || 'w-full'}`}>
         {label && (
           <Text className={`font-label-md ${labelColor}`}>{label}</Text>
         )}
@@ -167,7 +167,7 @@ const Input = React.forwardRef<React.ComponentRef<typeof UIInput>, IInputProps>(
           ref={ref}
           {...props}
           isInvalid={isInvalid}
-          className={inputStyle({ variant, size, class: className })}
+          className={inputStyle({ variant, size })}
           context={{
             variant,
             size,
