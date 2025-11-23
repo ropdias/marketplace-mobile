@@ -1,8 +1,20 @@
+import { router } from 'expo-router'
 import { useState } from 'react'
-import { FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem, Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Filter } from '@/components/filter'
 import { ProductCard, ProductCardProps } from '@/components/product-card'
+import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
+import { HStack } from '@/components/ui/hstack'
+import {
+  ArrowRight02Icon,
+  FilterVerticalIcon,
+  Search01Icon,
+} from '@/components/ui/icon'
+import { Image } from '@/components/ui/image'
+import { Input, InputField, InputIcon } from '@/components/ui/input'
+import { VStack } from '@/components/ui/vstack'
 
 // Mock data - replace with API call
 const PRODUCTS: ProductCardProps[] = [
@@ -70,6 +82,15 @@ const PRODUCTS: ProductCardProps[] = [
 
 export default function Home() {
   const [showFilter, setShowFilter] = useState(false)
+  const [search, setSearch] = useState('')
+
+  function goToProfile() {
+    router.push('/profile')
+  }
+
+  function openFilter() {
+    setShowFilter(true)
+  }
 
   const renderProduct: ListRenderItem<ProductCardProps> = ({ item }) => (
     <ProductCard
@@ -81,7 +102,51 @@ export default function Home() {
   )
 
   return (
-    <View>
+    <VStack className="h-full w-full flex-1">
+      <SafeAreaView edges={['top']} className="bg-white">
+        <VStack className="w-full items-center justify-center gap-[32px] bg-white p-[24px]">
+          <HStack className="h-[56px] w-full items-center gap-[20px]">
+            <Image
+              source={require('@/assets/product-1.jpg')}
+              alt="profile-picture"
+              className="h-[56px] w-[56px] rounded-[12px] border border-shape"
+            />
+            <VStack className="gap-[4px]">
+              <Text className="font-title-sm text-gray-500">Olá, Brandon!</Text>
+              <Button
+                variant="link"
+                size="link"
+                className="items-center justify-start"
+                onPress={goToProfile}
+              >
+                <ButtonText>Ver perfil</ButtonText>
+                <ButtonIcon as={ArrowRight02Icon} />
+              </Button>
+            </VStack>
+          </HStack>
+          <VStack className="w-full items-start gap-[4px]">
+            <Text className="font-body-sm text-gray-500">Explore produtos</Text>
+            <HStack className="w-full items-end gap-[16px]">
+              <Input isFilled={search.length > 0} className="flex-1">
+                <InputIcon as={Search01Icon} />
+                <InputField
+                  placeholder="Pesquisar"
+                  value={search}
+                  onChangeText={setSearch}
+                />
+              </Input>
+              <Button
+                variant="outline"
+                size="small"
+                className="h-[40px] w-[40px] items-center justify-center p-0"
+                onPress={openFilter}
+              >
+                <ButtonIcon as={FilterVerticalIcon} />
+              </Button>
+            </HStack>
+          </VStack>
+        </VStack>
+      </SafeAreaView>
       <Filter showFilter={showFilter} setShowFilter={setShowFilter} />
       <FlatList
         data={PRODUCTS}
@@ -93,6 +158,6 @@ export default function Home() {
         columnWrapperClassName="justify-around gap-[8px]"
         className="w-full bg-background"
       />
-    </View>
+    </VStack>
   )
 }

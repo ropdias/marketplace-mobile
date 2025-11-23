@@ -1,7 +1,6 @@
 import { Tabs } from 'expo-router'
 import { Text } from 'react-native'
 
-import { HomeHeader } from '@/components/home-header'
 import { Icon, Store04Icon, UserIcon } from '@/components/ui/icon'
 
 function TabBarLabel({ focused, label }: { focused: boolean; label: string }) {
@@ -20,7 +19,7 @@ export default function AppLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          header: () => <HomeHeader />,
+          headerShown: false,
           tabBarLabel: ({ focused }) => (
             <TabBarLabel focused={focused} label="Produtos" />
           ),
