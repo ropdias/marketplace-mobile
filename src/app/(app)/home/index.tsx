@@ -92,6 +92,11 @@ export default function Home() {
     setShowFilter(true)
   }
 
+  function handleSearch(query: string) {
+    // Implement search functionality here
+    console.log('Searching for:', query)
+  }
+
   const renderProduct: ListRenderItem<ProductCardProps> = ({ item }) => (
     <ProductCard
       productId={item.productId}
@@ -133,6 +138,13 @@ export default function Home() {
                   placeholder="Pesquisar"
                   value={search}
                   onChangeText={setSearch}
+                  returnKeyType="search"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onSubmitEditing={() => {
+                    handleSearch(search)
+                  }}
+                  submitBehavior="blurAndSubmit"
                 />
               </Input>
               <Button
