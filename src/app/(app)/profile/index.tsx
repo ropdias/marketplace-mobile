@@ -1,6 +1,6 @@
 import { router } from 'expo-router'
 import { useState } from 'react'
-import { ScrollView, Text } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
@@ -46,8 +46,16 @@ export default function Profile() {
       edges={['top', 'left', 'right']}
       className="flex-1 bg-background"
     >
-      <VStack className="items-center justify-center">
-        <ScrollView showsVerticalScrollIndicator={false} className="w-full">
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          className="w-full"
+          keyboardShouldPersistTaps="handled"
+        >
           <HStack className="items-center justify-center px-[40px] pb-[20px] pt-[24px]">
             <Image
               source={require('@/assets/product-1.jpg')}
@@ -130,7 +138,7 @@ export default function Profile() {
             </Button>
           </VStack>
         </ScrollView>
-      </VStack>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
