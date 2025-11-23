@@ -153,7 +153,7 @@ const actionsheetDragIndicatorWrapperStyle = tva({
 })
 
 const actionsheetBackdropStyle = tva({
-  base: 'bg-background-dark absolute bottom-0 left-0 right-0 top-0',
+  base: 'absolute bottom-0 left-0 right-0 top-0 bg-gray-400',
 })
 
 const actionsheetScrollViewStyle = tva({
