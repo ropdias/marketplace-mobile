@@ -20,6 +20,7 @@ import {
 import { HStack } from '@/components/ui/hstack'
 import { Input, InputField } from '@/components/ui/input'
 import { VStack } from '@/components/ui/vstack'
+import { currencyApplyMask } from '@/utils/currency-apply-mask'
 
 interface FilterProps {
   showFilter: boolean
@@ -34,6 +35,12 @@ export function Filter({ showFilter, setShowFilter }: FilterProps) {
 
   const handleClose = () => {
     setShowFilter(false)
+  }
+
+  const handleClearFilter = () => {
+    setValues([])
+    setPriceFrom('')
+    setPriceTo('')
   }
 
   useEffect(() => {
@@ -69,72 +76,84 @@ export function Filter({ showFilter, setShowFilter }: FilterProps) {
               keyboardShouldPersistTaps="handled"
               keyboardDismissMode="on-drag"
             >
-              <VStack className="gap-[8px]">
-                <Text className="font-title-xs gray-400">Valor</Text>
-                <HStack className="w-full gap-[20px]">
-                  <Input isFilled={priceFrom.length > 0} className="flex-1">
-                    <InputField
-                      placeholder="De"
-                      value={priceFrom}
-                      onChangeText={setPriceFrom}
-                    />
-                  </Input>
-                  <Input isFilled={priceTo.length > 0} className="flex-1">
-                    <InputField
-                      placeholder="Até"
-                      value={priceTo}
-                      onChangeText={setPriceTo}
-                    />
-                  </Input>
-                </HStack>
-              </VStack>
-              <VStack className="gap-[20px]">
-                <Text className="font-title-xs gray-400">Categoria</Text>
-                <CheckboxGroup
-                  value={values}
-                  onChange={(keys) => {
-                    setValues(keys)
-                  }}
-                >
-                  <VStack className="w-full gap-[12px]">
-                    <Checkbox value="toy">
-                      <CheckboxIndicator>
-                        <CheckboxIcon />
-                      </CheckboxIndicator>
-                      <CheckboxLabel>Brinquedo</CheckboxLabel>
-                    </Checkbox>
-                    <Checkbox value="furniture">
-                      <CheckboxIndicator>
-                        <CheckboxIcon />
-                      </CheckboxIndicator>
-                      <CheckboxLabel>Móvel</CheckboxLabel>
-                    </Checkbox>
-                    <Checkbox value="stationery">
-                      <CheckboxIndicator>
-                        <CheckboxIcon />
-                      </CheckboxIndicator>
-                      <CheckboxLabel>Papelaria</CheckboxLabel>
-                    </Checkbox>
-                    <Checkbox value="health-beauty">
-                      <CheckboxIndicator>
-                        <CheckboxIcon />
-                      </CheckboxIndicator>
-                      <CheckboxLabel>Saúde & Beleza</CheckboxLabel>
-                    </Checkbox>
-                    <Checkbox value="utensils">
-                      <CheckboxIndicator>
-                        <CheckboxIcon />
-                      </CheckboxIndicator>
-                      <CheckboxLabel>Utensílios</CheckboxLabel>
-                    </Checkbox>
-                    <Checkbox value="clothing">
-                      <CheckboxIndicator>
-                        <CheckboxIcon />
-                      </CheckboxIndicator>
-                      <CheckboxLabel>Vestuário</CheckboxLabel>
-                    </Checkbox>
-                  </VStack>
-                </CheckboxGroup>
+              <VStack className="gap-[24px]">
+                <VStack className="gap-[8px]">
+                  <Text className="font-title-xs gray-400">Valor</Text>
+                  <HStack className="w-full gap-[20px]">
+                    <Input isFilled={priceFrom.length > 0} className="flex-1">
+                      <InputField
+                        placeholder="De"
+                        value={priceFrom}
+                        onChangeText={(text) =>
+                          setPriceFrom(currencyApplyMask(text))
+                        }
+                        keyboardType="number-pad"
+                        inputMode="numeric"
+                        maxLength={10}
+                      />
+                    </Input>
+                    <Input isFilled={priceTo.length > 0} className="flex-1">
+                      <InputField
+                        placeholder="Até"
+                        value={priceTo}
+                        onChangeText={(text) =>
+                          setPriceTo(currencyApplyMask(text))
+                        }
+                        keyboardType="number-pad"
+                        inputMode="numeric"
+                        maxLength={10}
+                      />
+                    </Input>
+                  </HStack>
+                </VStack>
+                <VStack className="gap-[20px]">
+                  <Text className="font-title-xs gray-400">Categoria</Text>
+                  <CheckboxGroup
+                    value={values}
+                    onChange={(keys) => {
+                      setValues(keys)
+                    }}
+                  >
+                    <VStack className="w-full gap-[12px]">
+                      <Checkbox value="toy">
+                        <CheckboxIndicator>
+                          <CheckboxIcon />
+                        </CheckboxIndicator>
+                        <CheckboxLabel>Brinquedo</CheckboxLabel>
+                      </Checkbox>
+                      <Checkbox value="furniture">
+                        <CheckboxIndicator>
+                          <CheckboxIcon />
+                        </CheckboxIndicator>
+                        <CheckboxLabel>Móvel</CheckboxLabel>
+                      </Checkbox>
+                      <Checkbox value="stationery">
+                        <CheckboxIndicator>
+                          <CheckboxIcon />
+                        </CheckboxIndicator>
+                        <CheckboxLabel>Papelaria</CheckboxLabel>
+                      </Checkbox>
+                      <Checkbox value="health-beauty">
+                        <CheckboxIndicator>
+                          <CheckboxIcon />
+                        </CheckboxIndicator>
+                        <CheckboxLabel>Saúde & Beleza</CheckboxLabel>
+                      </Checkbox>
+                      <Checkbox value="utensils">
+                        <CheckboxIndicator>
+                          <CheckboxIcon />
+                        </CheckboxIndicator>
+                        <CheckboxLabel>Utensílios</CheckboxLabel>
+                      </Checkbox>
+                      <Checkbox value="clothing">
+                        <CheckboxIndicator>
+                          <CheckboxIcon />
+                        </CheckboxIndicator>
+                        <CheckboxLabel>Vestuário</CheckboxLabel>
+                      </Checkbox>
+                    </VStack>
+                  </CheckboxGroup>
+                </VStack>
               </VStack>
             </ActionsheetScrollView>
           </VStack>
@@ -148,6 +167,7 @@ export function Filter({ showFilter, setShowFilter }: FilterProps) {
                 numberOfLines={1}
                 ellipsizeMode="clip"
                 className="shrink-0"
+                onPress={handleClearFilter}
               >
                 Limpar filtro
               </ButtonText>
