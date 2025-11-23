@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Text } from 'react-native'
+import { useEffect, useState } from 'react'
+import { Keyboard, Text } from 'react-native'
 
 import {
   Actionsheet,
@@ -7,6 +7,7 @@ import {
   ActionsheetContent,
   ActionsheetDragIndicator,
   ActionsheetDragIndicatorWrapper,
+  ActionsheetScrollView,
 } from '@/components/ui/actionsheet'
 import { Button, ButtonText } from '@/components/ui/button'
 import {
@@ -26,6 +27,7 @@ interface FilterProps {
 }
 
 export function Filter({ showFilter, setShowFilter }: FilterProps) {
+  const [snapPoint, setSnapPoint] = useState<number>(70)
   const [values, setValues] = useState<string[]>([])
   const [priceFrom, setPriceFrom] = useState<string>('')
   const [priceTo, setPriceTo] = useState<string>('')
@@ -34,8 +36,27 @@ export function Filter({ showFilter, setShowFilter }: FilterProps) {
     setShowFilter(false)
   }
 
+  useEffect(() => {
+    const showSub = Keyboard.addListener('keyboardWillShow', () => {
+      setSnapPoint(85)
+    })
+
+    const hideSub = Keyboard.addListener('keyboardWillHide', () => {
+      setSnapPoint(70)
+    })
+
+    return () => {
+      showSub.remove()
+      hideSub.remove()
+    }
+  }, [])
+
   return (
-    <Actionsheet isOpen={showFilter} onClose={handleClose} snapPoints={[70]}>
+    <Actionsheet
+      isOpen={showFilter}
+      onClose={handleClose}
+      snapPoints={[snapPoint]}
+    >
       <ActionsheetBackdrop />
       <ActionsheetContent>
         <ActionsheetDragIndicatorWrapper>
@@ -44,73 +65,78 @@ export function Filter({ showFilter, setShowFilter }: FilterProps) {
         <VStack className="pb-safe h-full w-full justify-between gap-[20px]">
           <VStack className="gap-[24px]">
             <Text className="font-title-md gray-500">Filtrar Anúncios</Text>
-            <VStack className="gap-[8px]">
-              <Text className="font-title-xs gray-400">Valor</Text>
-              <HStack className="w-full gap-[20px]">
-                <Input isFilled={priceFrom.length > 0} className="flex-1">
-                  <InputField
-                    placeholder="De"
-                    value={priceFrom}
-                    onChangeText={setPriceFrom}
-                  />
-                </Input>
-                <Input isFilled={priceTo.length > 0} className="flex-1">
-                  <InputField
-                    placeholder="Até"
-                    value={priceTo}
-                    onChangeText={setPriceTo}
-                  />
-                </Input>
-              </HStack>
-            </VStack>
-            <VStack className="gap-[20px]">
-              <Text className="font-title-xs gray-400">Categoria</Text>
-              <CheckboxGroup
-                value={values}
-                onChange={(keys) => {
-                  setValues(keys)
-                }}
-              >
-                <VStack className="w-full gap-[12px]">
-                  <Checkbox value="toy">
-                    <CheckboxIndicator>
-                      <CheckboxIcon />
-                    </CheckboxIndicator>
-                    <CheckboxLabel>Brinquedo</CheckboxLabel>
-                  </Checkbox>
-                  <Checkbox value="furniture">
-                    <CheckboxIndicator>
-                      <CheckboxIcon />
-                    </CheckboxIndicator>
-                    <CheckboxLabel>Móvel</CheckboxLabel>
-                  </Checkbox>
-                  <Checkbox value="stationery">
-                    <CheckboxIndicator>
-                      <CheckboxIcon />
-                    </CheckboxIndicator>
-                    <CheckboxLabel>Papelaria</CheckboxLabel>
-                  </Checkbox>
-                  <Checkbox value="health-beauty">
-                    <CheckboxIndicator>
-                      <CheckboxIcon />
-                    </CheckboxIndicator>
-                    <CheckboxLabel>Saúde & Beleza</CheckboxLabel>
-                  </Checkbox>
-                  <Checkbox value="utensils">
-                    <CheckboxIndicator>
-                      <CheckboxIcon />
-                    </CheckboxIndicator>
-                    <CheckboxLabel>Utensílios</CheckboxLabel>
-                  </Checkbox>
-                  <Checkbox value="clothing">
-                    <CheckboxIndicator>
-                      <CheckboxIcon />
-                    </CheckboxIndicator>
-                    <CheckboxLabel>Vestuário</CheckboxLabel>
-                  </Checkbox>
-                </VStack>
-              </CheckboxGroup>
-            </VStack>
+            <ActionsheetScrollView
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="on-drag"
+            >
+              <VStack className="gap-[8px]">
+                <Text className="font-title-xs gray-400">Valor</Text>
+                <HStack className="w-full gap-[20px]">
+                  <Input isFilled={priceFrom.length > 0} className="flex-1">
+                    <InputField
+                      placeholder="De"
+                      value={priceFrom}
+                      onChangeText={setPriceFrom}
+                    />
+                  </Input>
+                  <Input isFilled={priceTo.length > 0} className="flex-1">
+                    <InputField
+                      placeholder="Até"
+                      value={priceTo}
+                      onChangeText={setPriceTo}
+                    />
+                  </Input>
+                </HStack>
+              </VStack>
+              <VStack className="gap-[20px]">
+                <Text className="font-title-xs gray-400">Categoria</Text>
+                <CheckboxGroup
+                  value={values}
+                  onChange={(keys) => {
+                    setValues(keys)
+                  }}
+                >
+                  <VStack className="w-full gap-[12px]">
+                    <Checkbox value="toy">
+                      <CheckboxIndicator>
+                        <CheckboxIcon />
+                      </CheckboxIndicator>
+                      <CheckboxLabel>Brinquedo</CheckboxLabel>
+                    </Checkbox>
+                    <Checkbox value="furniture">
+                      <CheckboxIndicator>
+                        <CheckboxIcon />
+                      </CheckboxIndicator>
+                      <CheckboxLabel>Móvel</CheckboxLabel>
+                    </Checkbox>
+                    <Checkbox value="stationery">
+                      <CheckboxIndicator>
+                        <CheckboxIcon />
+                      </CheckboxIndicator>
+                      <CheckboxLabel>Papelaria</CheckboxLabel>
+                    </Checkbox>
+                    <Checkbox value="health-beauty">
+                      <CheckboxIndicator>
+                        <CheckboxIcon />
+                      </CheckboxIndicator>
+                      <CheckboxLabel>Saúde & Beleza</CheckboxLabel>
+                    </Checkbox>
+                    <Checkbox value="utensils">
+                      <CheckboxIndicator>
+                        <CheckboxIcon />
+                      </CheckboxIndicator>
+                      <CheckboxLabel>Utensílios</CheckboxLabel>
+                    </Checkbox>
+                    <Checkbox value="clothing">
+                      <CheckboxIndicator>
+                        <CheckboxIcon />
+                      </CheckboxIndicator>
+                      <CheckboxLabel>Vestuário</CheckboxLabel>
+                    </Checkbox>
+                  </VStack>
+                </CheckboxGroup>
+              </VStack>
+            </ActionsheetScrollView>
           </VStack>
           <HStack className="w-full gap-[12px]">
             <Button
