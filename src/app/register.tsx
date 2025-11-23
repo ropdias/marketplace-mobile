@@ -49,6 +49,7 @@ export default function Register() {
           showsVerticalScrollIndicator={false}
           className="w-full"
           keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{ flexGrow: 1 }}
         >
           <VStack className="w-full flex-1 items-center justify-between gap-[61px] p-[40px]">
             <VStack className="w-full items-center gap-[34px]">
