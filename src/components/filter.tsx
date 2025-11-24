@@ -27,9 +27,23 @@ interface FilterProps {
   showFilter: boolean
   setShowFilter: React.Dispatch<React.SetStateAction<boolean>>
   categories: Category[]
+  handleFilterProducts: ({
+    categories,
+    priceFrom,
+    priceTo,
+  }: {
+    categories: string[]
+    priceFrom: string
+    priceTo: string
+  }) => void
 }
 
-export function Filter({ showFilter, setShowFilter, categories }: FilterProps) {
+export function Filter({
+  showFilter,
+  setShowFilter,
+  categories,
+  handleFilterProducts,
+}: FilterProps) {
   const [snapPoint, setSnapPoint] = useState<number>(70)
   const [values, setValues] = useState<string[]>([])
   const [priceFrom, setPriceFrom] = useState<string>('')
@@ -149,7 +163,14 @@ export function Filter({ showFilter, setShowFilter, categories }: FilterProps) {
               Limpar filtro
             </ButtonText>
           </Button>
-          <Button className="flex-1 justify-center" size="small">
+          <Button
+            className="flex-1 justify-center"
+            size="small"
+            onPress={() => {
+              handleFilterProducts({ categories: values, priceFrom, priceTo })
+              handleClose()
+            }}
+          >
             <ButtonText
               numberOfLines={1}
               ellipsizeMode="clip"

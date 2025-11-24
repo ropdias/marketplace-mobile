@@ -28,9 +28,11 @@ import { useSession } from '@/contexts/auth-context'
 import { useAppToast } from '@/hooks/use-app-toast'
 import { api } from '@/lib/axios'
 import { AppError } from '@/utils/app-error'
+import { unmaskCurrencyToCents } from '@/utils/unmask-currency-to-cents'
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
+  const [productsFiltered, setProductsFiltered] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [seller, setSeller] = useState<Seller | null>(null)
   const [showFilter, setShowFilter] = useState(false)
@@ -61,6 +63,29 @@ export default function Home() {
     searchProductsFromSeller({
       accessToken: getAccessTokenOrEmpty(),
       search: query,
+    })
+  }
+
+  function handleFilterProducts({
+    categories,
+    priceFrom,
+    priceTo,
+  }: {
+    categories: string[]
+    priceFrom: string
+    priceTo: string
+  }) {
+    const from = priceFrom.length ? unmaskCurrencyToCents(priceFrom) : null
+    const to = priceTo.length ? unmaskCurrencyToCents(priceTo) : null
+
+    setProductsFiltered(() => {
+      return products.filter((product) => {
+        const catOK =
+          categories.length === 0 || categories.includes(product.category.id)
+        const fromOK = from === null || product.priceInCents >= from
+        const toOK = to === null || product.priceInCents <= to
+        return catOK && fromOK && toOK
+      })
     })
   }
 
@@ -172,6 +197,10 @@ export default function Home() {
     getAccessTokenOrEmpty,
   ])
 
+  useEffect(() => {
+    setProductsFiltered(products)
+  }, [products])
+
   return (
     <VStack className="h-full w-full flex-1">
       <SafeAreaView edges={['top']} className="bg-white">
@@ -241,9 +270,10 @@ export default function Home() {
         showFilter={showFilter}
         setShowFilter={setShowFilter}
         categories={categories}
+        handleFilterProducts={handleFilterProducts}
       />
       <FlatList
-        data={products}
+        data={productsFiltered}
         renderItem={renderProduct}
         keyExtractor={(item) => item.id}
         numColumns={2}
