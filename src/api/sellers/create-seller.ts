@@ -16,22 +16,30 @@ export interface CreateSellerResponse {
   seller: Seller
 }
 
-export async function createSeller({
-  name,
-  phone,
-  email,
-  avatarId,
-  password,
-  passwordConfirmation,
-}: CreateSellerBody) {
-  const response = await api.post<CreateSellerResponse>('/sellers', {
-    name,
-    phone,
-    email,
-    avatarId,
-    password,
-    passwordConfirmation,
-  })
+export interface CreateSellerProps {
+  body: CreateSellerBody
+  accessToken: string
+}
+
+export async function createSeller({ body, accessToken }: CreateSellerProps) {
+  const { name, phone, email, avatarId, password, passwordConfirmation } = body
+
+  const response = await api.post<CreateSellerResponse>(
+    '/sellers',
+    {
+      name,
+      phone,
+      email,
+      avatarId,
+      password,
+      passwordConfirmation,
+    },
+    {
+      headers: {
+        Cookie: accessToken,
+      },
+    },
+  )
   return response.data
 }
 

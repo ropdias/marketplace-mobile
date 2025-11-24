@@ -10,11 +10,23 @@ export interface GetViewsByProductLast7DaysResponse {
   amount: number
 }
 
+export interface GetViewsByProductLast7DaysProps {
+  path: GetViewsByProductLast7DaysPathParams
+  accessToken: string
+}
+
 export async function getViewsByProductLast7Days({
-  id,
-}: GetViewsByProductLast7DaysPathParams) {
+  path,
+  accessToken,
+}: GetViewsByProductLast7DaysProps) {
+  const { id } = path
   const response = await api.get<GetViewsByProductLast7DaysResponse>(
     `/products/${id}/metrics/views`,
+    {
+      headers: {
+        Cookie: accessToken,
+      },
+    },
   )
   return response.data
 }

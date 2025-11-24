@@ -12,16 +12,25 @@ export interface GetAllProductsFromSellerResponse {
   products: Product[]
 }
 
+export interface GetAllProductsFromSellerProps {
+  query: GetAllProductsFromSellerQuery
+  accessToken: string
+}
+
 export async function getAllProductsFromSeller({
-  status,
-  search,
-}: GetAllProductsFromSellerQuery) {
+  query,
+  accessToken,
+}: GetAllProductsFromSellerProps) {
+  const { status, search } = query
   const response = await api.get<GetAllProductsFromSellerResponse>(
     '/products/me',
     {
       params: {
         status,
         search,
+      },
+      headers: {
+        Cookie: accessToken,
       },
     },
   )

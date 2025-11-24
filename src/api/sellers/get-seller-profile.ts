@@ -5,7 +5,15 @@ export interface GetSellerProfileResponse {
   seller: Seller
 }
 
-export async function getSellerProfile() {
-  const response = await api.get<GetSellerProfileResponse>('/sellers/me')
+export interface GetSellerProfileProps {
+  accessToken: string
+}
+
+export async function getSellerProfile({ accessToken }: GetSellerProfileProps) {
+  const response = await api.get<GetSellerProfileResponse>('/sellers/me', {
+    headers: {
+      Cookie: accessToken,
+    },
+  })
   return response.data
 }

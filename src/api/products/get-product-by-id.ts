@@ -11,8 +11,21 @@ export interface GetProductByIdResponse {
   product: Product
 }
 
-export async function getProductById({ id }: GetProductByIdPathParams) {
-  const response = await api.get<GetProductByIdResponse>(`/products/${id}`)
+export interface GetProductByIdProps {
+  path: GetProductByIdPathParams
+  accessToken: string
+}
+
+export async function getProductById({
+  path,
+  accessToken,
+}: GetProductByIdProps) {
+  const { id } = path
+  const response = await api.get<GetProductByIdResponse>(`/products/${id}`, {
+    headers: {
+      Cookie: accessToken,
+    },
+  })
   return response.data
 }
 

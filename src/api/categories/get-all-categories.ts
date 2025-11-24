@@ -5,7 +5,15 @@ export interface GetAllCategoriesResponse {
   categories: Category[]
 }
 
-export async function getAllCategories() {
-  const response = await api.get<GetAllCategoriesResponse>('/categories')
+export interface GetAllCategoriesProps {
+  accessToken: string
+}
+
+export async function getAllCategories({ accessToken }: GetAllCategoriesProps) {
+  const response = await api.get<GetAllCategoriesResponse>('/categories', {
+    headers: {
+      Cookie: accessToken,
+    },
+  })
   return response.data
 }
