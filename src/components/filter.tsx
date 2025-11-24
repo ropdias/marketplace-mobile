@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Keyboard, Text } from 'react-native'
 
+import { Category } from '@/@types/category'
 import {
   Actionsheet,
   ActionsheetBackdrop,
@@ -25,9 +26,10 @@ import { currencyApplyMask } from '@/utils/currency-apply-mask'
 interface FilterProps {
   showFilter: boolean
   setShowFilter: React.Dispatch<React.SetStateAction<boolean>>
+  categories: Category[]
 }
 
-export function Filter({ showFilter, setShowFilter }: FilterProps) {
+export function Filter({ showFilter, setShowFilter, categories }: FilterProps) {
   const [snapPoint, setSnapPoint] = useState<number>(70)
   const [values, setValues] = useState<string[]>([])
   const [priceFrom, setPriceFrom] = useState<string>('')
@@ -65,17 +67,19 @@ export function Filter({ showFilter, setShowFilter }: FilterProps) {
       snapPoints={[snapPoint]}
     >
       <ActionsheetBackdrop />
-      <ActionsheetContent>
+      <ActionsheetContent className="items-start">
         <ActionsheetDragIndicatorWrapper>
           <ActionsheetDragIndicator />
         </ActionsheetDragIndicatorWrapper>
-        <VStack className="pb-safe h-full w-full justify-between gap-[20px]">
-          <VStack className="gap-[24px]">
-            <Text className="font-title-md gray-500">Filtrar Anúncios</Text>
-            <ActionsheetScrollView
-              keyboardShouldPersistTaps="handled"
-              keyboardDismissMode="on-drag"
-            >
+        <Text className="font-title-md gray-500 mb-[24px]">
+          Filtrar Anúncios
+        </Text>
+        <ActionsheetScrollView
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+        >
+          <VStack className="w-full justify-between gap-[20px]">
+            <VStack className="gap-[24px]">
               <VStack className="gap-[24px]">
                 <VStack className="gap-[8px]">
                   <Text className="font-title-xs gray-400">Valor</Text>
@@ -115,74 +119,46 @@ export function Filter({ showFilter, setShowFilter }: FilterProps) {
                     }}
                   >
                     <VStack className="w-full gap-[12px]">
-                      <Checkbox value="toy">
-                        <CheckboxIndicator>
-                          <CheckboxIcon />
-                        </CheckboxIndicator>
-                        <CheckboxLabel>Brinquedo</CheckboxLabel>
-                      </Checkbox>
-                      <Checkbox value="furniture">
-                        <CheckboxIndicator>
-                          <CheckboxIcon />
-                        </CheckboxIndicator>
-                        <CheckboxLabel>Móvel</CheckboxLabel>
-                      </Checkbox>
-                      <Checkbox value="stationery">
-                        <CheckboxIndicator>
-                          <CheckboxIcon />
-                        </CheckboxIndicator>
-                        <CheckboxLabel>Papelaria</CheckboxLabel>
-                      </Checkbox>
-                      <Checkbox value="health-beauty">
-                        <CheckboxIndicator>
-                          <CheckboxIcon />
-                        </CheckboxIndicator>
-                        <CheckboxLabel>Saúde & Beleza</CheckboxLabel>
-                      </Checkbox>
-                      <Checkbox value="utensils">
-                        <CheckboxIndicator>
-                          <CheckboxIcon />
-                        </CheckboxIndicator>
-                        <CheckboxLabel>Utensílios</CheckboxLabel>
-                      </Checkbox>
-                      <Checkbox value="clothing">
-                        <CheckboxIndicator>
-                          <CheckboxIcon />
-                        </CheckboxIndicator>
-                        <CheckboxLabel>Vestuário</CheckboxLabel>
-                      </Checkbox>
+                      {categories.map((category) => (
+                        <Checkbox key={category.id} value={category.id}>
+                          <CheckboxIndicator>
+                            <CheckboxIcon />
+                          </CheckboxIndicator>
+                          <CheckboxLabel>{category.title}</CheckboxLabel>
+                        </Checkbox>
+                      ))}
                     </VStack>
                   </CheckboxGroup>
                 </VStack>
               </VStack>
-            </ActionsheetScrollView>
+            </VStack>
           </VStack>
-          <HStack className="w-full gap-[12px]">
-            <Button
-              variant="outline"
-              className="flex-1 justify-center"
-              size="small"
+        </ActionsheetScrollView>
+        <HStack className="w-full gap-[12px] pt-[12px]">
+          <Button
+            variant="outline"
+            className="flex-1 justify-center"
+            size="small"
+            onPress={handleClearFilter}
+          >
+            <ButtonText
+              numberOfLines={1}
+              ellipsizeMode="clip"
+              className="shrink-0"
             >
-              <ButtonText
-                numberOfLines={1}
-                ellipsizeMode="clip"
-                className="shrink-0"
-                onPress={handleClearFilter}
-              >
-                Limpar filtro
-              </ButtonText>
-            </Button>
-            <Button className="flex-1 justify-center" size="small">
-              <ButtonText
-                numberOfLines={1}
-                ellipsizeMode="clip"
-                className="shrink-0"
-              >
-                Filtrar
-              </ButtonText>
-            </Button>
-          </HStack>
-        </VStack>
+              Limpar filtro
+            </ButtonText>
+          </Button>
+          <Button className="flex-1 justify-center" size="small">
+            <ButtonText
+              numberOfLines={1}
+              ellipsizeMode="clip"
+              className="shrink-0"
+            >
+              Filtrar
+            </ButtonText>
+          </Button>
+        </HStack>
       </ActionsheetContent>
     </Actionsheet>
   )

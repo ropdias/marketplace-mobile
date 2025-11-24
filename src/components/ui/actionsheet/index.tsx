@@ -106,7 +106,7 @@ cssInterop(PrimitiveIcon, {
 const actionsheetStyle = tva({ base: 'h-full w-full' })
 
 const actionsheetContentStyle = tva({
-  base: 'pb-safe h-full items-center rounded-tl-[24px] rounded-tr-[24px] border border-b-0 border-outline-100 bg-white p-[24px] pt-[8px] shadow-hard-5',
+  base: 'pb-safe items-center rounded-tl-[24px] rounded-tr-[24px] border border-b-0 border-outline-100 bg-white p-[24px] pt-[8px] shadow-hard-5',
 })
 
 const actionsheetItemStyle = tva({
