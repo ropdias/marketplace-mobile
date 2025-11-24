@@ -61,15 +61,6 @@ export default function Product() {
     fetchProductById(accessToken)
   }, [fetchProductById, getAccessTokenOrEmpty, id])
 
-  useEffect(() => {
-    console.log(`🟢 Tela do Produto ${id} MONTADA (Entrou na memória)`)
-
-    // A função de retorno do useEffect roda quando o componente morre
-    return () => {
-      console.log(`🔴 Tela do Produto ${id} DESMONTADA (Saiu da memória)`)
-    }
-  }, [id])
-
   if (!product) {
     return null
   }
