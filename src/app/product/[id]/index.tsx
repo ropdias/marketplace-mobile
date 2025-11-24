@@ -4,6 +4,7 @@ import { Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Product as ProductType } from '@/@types/product'
+import { getViewsByProductLast7Days } from '@/api/metrics/get-views-by-product-last-7-days'
 import { getProductById } from '@/api/products/get-product-by-id'
 import { Box } from '@/components/ui/box'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
@@ -24,6 +25,7 @@ import { currencyApplyMask } from '@/utils/currency-apply-mask'
 
 export default function Product() {
   const [product, setProduct] = useState<ProductType | null>(null)
+  const [viewsLast7Days, setViewsLast7Days] = useState<number | null>(null)
   const { getAccessTokenOrEmpty } = useSession()
   const { id } = useLocalSearchParams<{ id: string }>()
   const { showError } = useAppToast()
@@ -33,6 +35,27 @@ export default function Product() {
   function goBack() {
     router.replace('/home')
   }
+
+  const fetchProductViewsLast7Days = useCallback(
+    async (accessToken: string) => {
+      try {
+        const data = await getViewsByProductLast7Days({
+          accessToken,
+          path: { id },
+        })
+        setViewsLast7Days(data.amount)
+      } catch (error) {
+        const isAppError = error instanceof AppError
+
+        const description = isAppError
+          ? error.message
+          : 'Não foi possível carregar o produto.'
+
+        showError({ title: 'Erro ao buscar o produto', description })
+      }
+    },
+    [showError, id],
+  )
 
   const fetchProductById = useCallback(
     async (accessToken: string) => {
@@ -59,7 +82,8 @@ export default function Product() {
     const accessToken = getAccessTokenOrEmpty()
 
     fetchProductById(accessToken)
-  }, [fetchProductById, getAccessTokenOrEmpty, id])
+    fetchProductViewsLast7Days(accessToken)
+  }, [fetchProductById, fetchProductViewsLast7Days, getAccessTokenOrEmpty, id])
 
   if (!product) {
     return null
@@ -147,12 +171,19 @@ export default function Product() {
                   height={20}
                 />
               </Box>
-              <Text className="font-body-xs flex-1 flex-shrink text-gray-400">
-                <Text className="font-body-xs-bold text-gray-400">
-                  24 pessoas
+              {viewsLast7Days !== null && (
+                <Text className="font-body-xs flex-1 flex-shrink text-gray-400">
+                  {viewsLast7Days === 0 ? (
+                    'Ninguém '
+                  ) : (
+                    <Text className="font-body-xs-bold text-gray-400">
+                      {`${viewsLast7Days.toLocaleString('pt-BR')} pessoa${viewsLast7Days === 1 ? '' : 's'}`}
+                    </Text>
+                  )}
+                  {viewsLast7Days > 1 ? ' visualizaram ' : ' visualizou '}
+                  {'este produto nos últimos 7 dias'}
                 </Text>
-                {' visualizaram este produto nos últimos 7 dias'}
-              </Text>
+              )}
             </HStack>
           </VStack>
         </VStack>
