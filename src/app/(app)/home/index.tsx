@@ -58,8 +58,10 @@ export default function Home() {
   }
 
   function handleSearch(query: string) {
-    // Implement search functionality here
-    console.log('Searching for:', query)
+    searchProductsFromSeller({
+      accessToken: getAccessTokenOrEmpty(),
+      search: query,
+    })
   }
 
   const renderProduct: ListRenderItem<Product> = ({ item }) => (
@@ -126,7 +128,36 @@ export default function Home() {
     [showError],
   )
 
-  // Fazer fetch de categoria aqui e passar pro filtro dinamicamente
+  const searchProductsFromSeller = useCallback(
+    async ({
+      accessToken,
+      search,
+    }: {
+      accessToken: string
+      search: string
+    }) => {
+      try {
+        const data = await getAllProductsFromSeller({
+          query: { search },
+          accessToken,
+        })
+        console.log('data.products[0]:', data.products[0])
+        setProducts(data.products)
+      } catch (error) {
+        const isAppError = error instanceof AppError
+
+        const description = isAppError
+          ? error.message
+          : 'Não foi possível carregar os produtos do vendedor.'
+
+        showError({
+          title: 'Erro ao buscar os produtos do vendedor',
+          description,
+        })
+      }
+    },
+    [showError],
+  )
 
   useEffect(() => {
     const accessToken = getAccessTokenOrEmpty()
