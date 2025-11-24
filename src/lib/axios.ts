@@ -10,6 +10,7 @@ type APIInstanceProps = AxiosInstance & {
 
 const api = axios.create({
   baseURL: 'http://192.168.15.174:3333',
+  withCredentials: false, // Disable cookies by default we are managing them manually
   timeout: 10000, // 10 seconds
 }) as APIInstanceProps
 
