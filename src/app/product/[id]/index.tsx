@@ -33,7 +33,7 @@ export default function Product() {
   let productImageUri: string | undefined = undefined
 
   function goBack() {
-    router.replace('/home')
+    router.back()
   }
 
   const fetchProductViewsLast7Days = useCallback(
