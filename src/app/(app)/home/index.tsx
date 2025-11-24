@@ -1,88 +1,50 @@
 import { router } from 'expo-router'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FlatList, ListRenderItem, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { Product } from '@/@types/product'
+import { Seller } from '@/@types/seller'
+import { getAllProductsFromSeller } from '@/api/products/get-all-products-from-seller'
+import { getSellerProfile } from '@/api/sellers/get-seller-profile'
 import { Filter } from '@/components/filter'
-import { ProductCard, ProductCardProps } from '@/components/product-card'
+import { ProductCard } from '@/components/product-card'
+import { Box } from '@/components/ui/box'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { HStack } from '@/components/ui/hstack'
 import {
   ArrowRight02Icon,
   FilterVerticalIcon,
+  Icon,
   Search01Icon,
+  UserIcon,
 } from '@/components/ui/icon'
 import { Image } from '@/components/ui/image'
 import { Input, InputField, InputIcon } from '@/components/ui/input'
 import { VStack } from '@/components/ui/vstack'
-
-// Mock data - replace with API call
-const PRODUCTS: ProductCardProps[] = [
-  {
-    productId: '1',
-    productPriceInCents: '120090',
-    productTitle: 'Sofá',
-    productImageUri: 'product-1',
-  },
-  {
-    productId: '2',
-    productPriceInCents: '3589',
-    productTitle: 'Camiseta Masculina',
-    productImageUri: 'product-2',
-  },
-  {
-    productId: '3',
-    productPriceInCents: '8679',
-    productTitle: 'Kit utensílios',
-    productImageUri: 'product-3',
-  },
-  {
-    productId: '4',
-    productPriceInCents: '15990',
-    productTitle: 'Kit de cremes',
-    productImageUri: 'product-4',
-  },
-  {
-    productId: '5',
-    productPriceInCents: '5600',
-    productTitle: 'Caderno de desenho',
-    productImageUri: 'product-5',
-  },
-  {
-    productId: '6',
-    productPriceInCents: '2460',
-    productTitle: 'Carro de brinquedo',
-    productImageUri: 'product-6',
-  },
-  {
-    productId: '7',
-    productPriceInCents: '120090',
-    productTitle: 'Sofá',
-    productImageUri: 'product-1',
-  },
-  {
-    productId: '8',
-    productPriceInCents: '3589',
-    productTitle: 'Camiseta Masculina',
-    productImageUri: 'product-2',
-  },
-  {
-    productId: '9',
-    productPriceInCents: '120090',
-    productTitle: 'Sofá',
-    productImageUri: 'product-1',
-  },
-  {
-    productId: '10',
-    productPriceInCents: '3589',
-    productTitle: 'Camiseta Masculina',
-    productImageUri: 'product-2',
-  },
-]
+import { useSession } from '@/contexts/auth-context'
+import { useAppToast } from '@/hooks/use-app-toast'
+import { api } from '@/lib/axios'
+import { AppError } from '@/utils/app-error'
 
 export default function Home() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [seller, setSeller] = useState<Seller | null>(null)
   const [showFilter, setShowFilter] = useState(false)
   const [search, setSearch] = useState('')
+  const { getAccessTokenOrEmpty } = useSession()
+  const { showError } = useAppToast()
+
+  let sellerAdjustedLocalUri: string | undefined = undefined
+
+  if (seller) {
+    // If the imageUri contains 'http://localhost:3333',
+    // replace it with the api base URL
+    sellerAdjustedLocalUri = seller.avatar?.url.replace(
+      'http://localhost:3333',
+      `${api.defaults.baseURL}`,
+    )
+  }
 
   function goToProfile() {
     router.push('/profile')
@@ -97,27 +59,83 @@ export default function Home() {
     console.log('Searching for:', query)
   }
 
-  const renderProduct: ListRenderItem<ProductCardProps> = ({ item }) => (
-    <ProductCard
-      productId={item.productId}
-      productPriceInCents={item.productPriceInCents}
-      productTitle={item.productTitle}
-      productImageUri={item.productImageUri}
-    />
+  const renderProduct: ListRenderItem<Product> = ({ item }) => (
+    <ProductCard product={item} />
   )
+
+  const fetchSellerProfile = useCallback(
+    async (accessToken: string) => {
+      try {
+        const data = await getSellerProfile({ accessToken })
+        setSeller(data.seller)
+      } catch (error) {
+        const isAppError = error instanceof AppError
+
+        const description = isAppError
+          ? error.message
+          : 'Não foi possível carregar os dados do perfil.'
+
+        showError({ title: 'Erro ao buscar o perfil do vendedor', description })
+      }
+    },
+    [showError],
+  )
+
+  const fetchAllProductsFromSeller = useCallback(
+    async (accessToken: string) => {
+      try {
+        const data = await getAllProductsFromSeller({
+          query: {},
+          accessToken,
+        })
+        setProducts(data.products)
+      } catch (error) {
+        const isAppError = error instanceof AppError
+
+        const description = isAppError
+          ? error.message
+          : 'Não foi possível carregar os produtos do vendedor.'
+
+        showError({
+          title: 'Erro ao buscar os produtos do vendedor',
+          description,
+        })
+      }
+    },
+    [showError],
+  )
+
+  useEffect(() => {
+    const accessToken = getAccessTokenOrEmpty()
+
+    fetchSellerProfile(accessToken)
+    fetchAllProductsFromSeller(accessToken)
+  }, [fetchSellerProfile, fetchAllProductsFromSeller, getAccessTokenOrEmpty])
 
   return (
     <VStack className="h-full w-full flex-1">
       <SafeAreaView edges={['top']} className="bg-white">
         <VStack className="w-full items-center justify-center gap-[32px] bg-white p-[24px]">
           <HStack className="h-[56px] w-full items-center gap-[20px]">
-            <Image
-              source={require('@/assets/product-1.jpg')}
-              alt="profile-picture"
-              className="h-[56px] w-[56px] rounded-[12px] border border-shape"
-            />
+            {sellerAdjustedLocalUri ? (
+              <Image
+                source={{ uri: sellerAdjustedLocalUri }}
+                alt="profile-picture"
+                className="h-[56px] w-[56px] rounded-[12px] border border-shape"
+              />
+            ) : (
+              <Box className="h-[56px] w-[56px] items-center justify-center rounded-[12px] border border-shape">
+                <Icon
+                  as={UserIcon}
+                  className="fill-gray-400"
+                  size="imageUploaderIcon"
+                />
+              </Box>
+            )}
             <VStack className="gap-[4px]">
-              <Text className="font-title-sm text-gray-500">Olá, Brandon!</Text>
+              {seller && (
+                <Text className="font-title-sm text-gray-500">{`Olá, ${seller.name}!`}</Text>
+              )}
               <Button
                 variant="link"
                 size="link"
@@ -161,9 +179,9 @@ export default function Home() {
       </SafeAreaView>
       <Filter showFilter={showFilter} setShowFilter={setShowFilter} />
       <FlatList
-        data={PRODUCTS}
+        data={products}
         renderItem={renderProduct}
-        keyExtractor={(item) => item.productId}
+        keyExtractor={(item) => item.id}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         contentContainerClassName="p-[16px] gap-[8px]"
