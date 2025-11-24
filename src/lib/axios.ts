@@ -20,6 +20,9 @@ api.registerInterceptTokenManager = (signOut) => {
     async (requestError) => {
       if (requestError.response?.status === 401) {
         signOut()
+        return Promise.reject(
+          new AppError('Não autorizado. Faça login novamente.'),
+        )
       }
 
       // For timeout errors
