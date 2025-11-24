@@ -174,7 +174,7 @@ export default function Product() {
               {viewsLast7Days !== null && (
                 <Text className="font-body-xs flex-1 flex-shrink text-gray-400">
                   {viewsLast7Days === 0 ? (
-                    'Ninguém '
+                    'Ninguém'
                   ) : (
                     <Text className="font-body-xs-bold text-gray-400">
                       {`${viewsLast7Days.toLocaleString('pt-BR')} pessoa${viewsLast7Days === 1 ? '' : 's'}`}
