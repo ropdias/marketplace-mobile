@@ -50,7 +50,7 @@ export default function Login() {
 
       const description = isAppError
         ? error.message
-        : 'Não foi possível carregar os dados do perfil.'
+        : 'Tente novamente mais tarde.'
 
       toast.show({
         placement: 'top',
@@ -59,7 +59,7 @@ export default function Login() {
           <ToastMessage
             id={id}
             action="error"
-            title="Erro ao buscar o perfil do vendedor"
+            title="Erro ao fazer login"
             description={description}
           />
         ),
