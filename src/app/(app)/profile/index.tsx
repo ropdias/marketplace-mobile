@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { KeyboardAvoidingView, Platform, ScrollView, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { signOut as apiSignOut } from '@/api/sessions/sign-out'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { HStack } from '@/components/ui/hstack'
 import {
@@ -24,6 +25,7 @@ import {
 } from '@/components/ui/input'
 import { VStack } from '@/components/ui/vstack'
 import { useSession } from '@/contexts/auth-context'
+import { useAppToast } from '@/hooks/use-app-toast'
 import { phoneApplyMask } from '@/utils/phone-apply-mask'
 
 export default function Profile() {
@@ -34,11 +36,26 @@ export default function Profile() {
   const [newPassword, setNewPassword] = useState('')
   const [showOldPassword, setShowOldPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
-  const { signOut } = useSession()
+  const { signOut, getAccessTokenOrEmpty } = useSession()
+  const { showSuccess, showError } = useAppToast()
 
-  function logout() {
-    signOut()
-    router.replace('/login')
+  async function logout() {
+    try {
+      await apiSignOut({ accessToken: getAccessTokenOrEmpty() })
+      showSuccess({
+        title: 'Logout realizado com sucesso!',
+        description: 'Volte sempre! 😊',
+      })
+    } catch {
+      showError({
+        title: 'Erro ao desconectar',
+        description:
+          'Não foi possível encerrar a sessão no servidor. Você será desconectado localmente.',
+      })
+    } finally {
+      signOut()
+      router.replace('/login')
+    }
   }
 
   return (
