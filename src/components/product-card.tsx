@@ -2,6 +2,7 @@ import { router } from 'expo-router'
 import { Text, TouchableOpacity, View } from 'react-native'
 
 import { Product } from '@/@types/product'
+import { useDebounceNav } from '@/hooks/use-debounce-nav'
 import { api } from '@/lib/axios'
 import { currencyApplyMask } from '@/utils/currency-apply-mask'
 
@@ -16,6 +17,7 @@ export interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const { isNavigating, handleNavigation } = useDebounceNav()
   const id = product.id
   const title = product.title
   const priceInCents = product.priceInCents
@@ -28,12 +30,17 @@ export function ProductCard({ product }: ProductCardProps) {
     `${api.defaults.baseURL}`,
   )
 
-  function goToProduct() {
-    router.push('/product')
+  function goToProduct({ id }: { id: string }) {
+    handleNavigation(() => {
+      router.push(`/product/${id}`)
+    })
   }
 
   return (
-    <TouchableOpacity onPress={goToProduct}>
+    <TouchableOpacity
+      onPress={() => goToProduct({ id })}
+      disabled={isNavigating}
+    >
       <Card>
         <VStack className="gap-[4px]">
           {adjustedLocalUri ? (
