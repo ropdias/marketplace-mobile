@@ -1,9 +1,11 @@
 import { router } from 'expo-router'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { KeyboardAvoidingView, Platform, ScrollView, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { signIn as apiSignIn } from '@/api/sessions/sign-in'
 import Logo from '@/assets/logo.svg'
+import { ToastMessage } from '@/components/toast-message'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import {
   AccessIcon,
@@ -19,23 +21,51 @@ import {
   InputRightIcon,
   InputSlot,
 } from '@/components/ui/input'
+import { useToast } from '@/components/ui/toast'
 import { VStack } from '@/components/ui/vstack'
 import { useSession } from '@/contexts/auth-context'
+import { AppError } from '@/utils/app-error'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const { signIn } = useSession()
-
-  function login() {
-    signIn()
-    router.replace('/home')
-  }
+  const { signIn: contextSignIn } = useSession()
+  const toast = useToast()
 
   function register() {
     router.navigate('/register')
   }
+
+  const handleSignIn = useCallback(async () => {
+    try {
+      const { accessToken } = await apiSignIn({
+        email: 'seller@mba.com',
+        password: '123456',
+      })
+      contextSignIn({ accessToken })
+      router.replace('/home')
+    } catch (error) {
+      const isAppError = error instanceof AppError
+
+      const description = isAppError
+        ? error.message
+        : 'Não foi possível carregar os dados do perfil.'
+
+      toast.show({
+        placement: 'top',
+        duration: 3000,
+        render: ({ id }) => (
+          <ToastMessage
+            id={id}
+            action="error"
+            title="Erro ao buscar o perfil do vendedor"
+            description={description}
+          />
+        ),
+      })
+    }
+  }, [toast, contextSignIn])
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-white">
@@ -90,7 +120,7 @@ export default function Login() {
                     </InputSlot>
                   </Input>
                 </VStack>
-                <Button variant="solid" onPress={login}>
+                <Button variant="solid" onPress={handleSignIn}>
                   <ButtonText>Acessar</ButtonText>
                   <ButtonIcon as={ArrowRight02Icon} />
                 </Button>
