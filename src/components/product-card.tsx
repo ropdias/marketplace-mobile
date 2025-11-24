@@ -1,6 +1,8 @@
 import { router } from 'expo-router'
 import { Text, TouchableOpacity, View } from 'react-native'
 
+import { Product } from '@/@types/product'
+import { api } from '@/lib/axios'
 import { currencyApplyMask } from '@/utils/currency-apply-mask'
 
 import { Card } from './ui/card'
@@ -9,33 +11,22 @@ import { Icon, PackageIcon } from './ui/icon'
 import { Image } from './ui/image'
 import { VStack } from './ui/vstack'
 
-// Local images map - require() needs literal strings
-const PRODUCT_IMAGES = {
-  'product-1': require('@/assets/product-1.jpg'),
-  'product-2': require('@/assets/product-2.jpg'),
-  'product-3': require('@/assets/product-3.jpg'),
-  'product-4': require('@/assets/product-4.jpg'),
-  'product-5': require('@/assets/product-5.jpg'),
-  'product-6': require('@/assets/product-6.jpg'),
-} as const
-
 export interface ProductCardProps {
-  productId: string
-  productTitle: string
-  productPriceInCents: string
-  productImageUri?: string // For remote images (full URL) or local image name (e.g., 'product-1')
+  product: Product
 }
 
-export function ProductCard({
-  productId,
-  productTitle,
-  productPriceInCents,
-  productImageUri,
-}: ProductCardProps) {
-  // Check if it's a remote URL or local image name
-  const isRemoteImage = productImageUri?.startsWith('http')
-  const isLocalImage =
-    productImageUri && productImageUri in PRODUCT_IMAGES && !isRemoteImage
+export function ProductCard({ product }: ProductCardProps) {
+  const id = product.id
+  const title = product.title
+  const priceInCents = product.priceInCents
+  const imageUri = product.attachments[0]?.url
+
+  // If the imageUri contains 'http://localhost:3333',
+  // replace it with the api base URL
+  const adjustedLocalUri = imageUri?.replace(
+    'http://localhost:3333',
+    `${api.defaults.baseURL}`,
+  )
 
   function goToProduct() {
     router.push('/product')
@@ -45,19 +36,11 @@ export function ProductCard({
     <TouchableOpacity onPress={goToProduct}>
       <Card>
         <VStack className="gap-[4px]">
-          {isRemoteImage ? (
+          {adjustedLocalUri ? (
             <Image
-              source={{ uri: productImageUri }}
+              source={{ uri: adjustedLocalUri }}
               className="h-[96px] w-[148px] rounded-[6px]"
-              alt={productTitle}
-            />
-          ) : isLocalImage ? (
-            <Image
-              source={
-                PRODUCT_IMAGES[productImageUri as keyof typeof PRODUCT_IMAGES]
-              }
-              className="h-[96px] w-[148px] rounded-[6px]"
-              alt={productTitle}
+              alt={title}
             />
           ) : (
             <View className="h-[96px] w-[148px] items-center justify-center rounded-[6px]">
@@ -69,11 +52,11 @@ export function ProductCard({
             </View>
           )}
           <VStack className="gap-[2px] p-[4px]">
-            <Text className="font-body-xs text-gray-400">{productTitle}</Text>
+            <Text className="font-body-xs text-gray-400">{title}</Text>
             <HStack className="items-baseline gap-[4px]">
               <Text className="font-label-sm text-gray-500">R$</Text>
               <Text className="font-title-xs text-gray-500">
-                {currencyApplyMask(productPriceInCents)}
+                {currencyApplyMask(String(priceInCents))}
               </Text>
             </HStack>
           </VStack>
