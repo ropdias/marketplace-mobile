@@ -3,8 +3,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { FlatList, ListRenderItem, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { Category } from '@/@types/category'
 import { Product } from '@/@types/product'
 import { Seller } from '@/@types/seller'
+import { getAllCategories } from '@/api/categories/get-all-categories'
 import { getAllProductsFromSeller } from '@/api/products/get-all-products-from-seller'
 import { getSellerProfile } from '@/api/sellers/get-seller-profile'
 import { Filter } from '@/components/filter'
@@ -29,6 +31,7 @@ import { AppError } from '@/utils/app-error'
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [seller, setSeller] = useState<Seller | null>(null)
   const [showFilter, setShowFilter] = useState(false)
   const [search, setSearch] = useState('')
@@ -105,12 +108,38 @@ export default function Home() {
     [showError],
   )
 
+  const fetchAllCategories = useCallback(
+    async (accessToken: string) => {
+      try {
+        const data = await getAllCategories({ accessToken })
+        setCategories(data.categories)
+      } catch (error) {
+        const isAppError = error instanceof AppError
+
+        const description = isAppError
+          ? error.message
+          : 'Não foi possível carregar as categorias.'
+
+        showError({ title: 'Erro ao buscar as categorias', description })
+      }
+    },
+    [showError],
+  )
+
+  // Fazer fetch de categoria aqui e passar pro filtro dinamicamente
+
   useEffect(() => {
     const accessToken = getAccessTokenOrEmpty()
 
     fetchSellerProfile(accessToken)
     fetchAllProductsFromSeller(accessToken)
-  }, [fetchSellerProfile, fetchAllProductsFromSeller, getAccessTokenOrEmpty])
+    fetchAllCategories(accessToken)
+  }, [
+    fetchSellerProfile,
+    fetchAllProductsFromSeller,
+    fetchAllCategories,
+    getAccessTokenOrEmpty,
+  ])
 
   return (
     <VStack className="h-full w-full flex-1">
@@ -177,7 +206,11 @@ export default function Home() {
           </VStack>
         </VStack>
       </SafeAreaView>
-      <Filter showFilter={showFilter} setShowFilter={setShowFilter} />
+      <Filter
+        showFilter={showFilter}
+        setShowFilter={setShowFilter}
+        categories={categories}
+      />
       <FlatList
         data={products}
         renderItem={renderProduct}
