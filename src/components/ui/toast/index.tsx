@@ -26,7 +26,7 @@ const SCOPE = 'TOAST'
 cssInterop(MotionView, { className: 'style' })
 
 const toastStyle = tva({
-  base: 'm-1 gap-[4px] rounded-[12px] bg-background p-[16px] shadow-hard-5',
+  base: 'mx-[25px] my-1 gap-[4px] rounded-[12px] bg-background p-[16px] shadow-hard-5',
   variants: {
     action: {
       error: 'bg-error',
