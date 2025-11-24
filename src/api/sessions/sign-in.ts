@@ -20,14 +20,14 @@ export async function signIn({ email, password }: SignInBody) {
 
   // Extracts only "access_token=..." before the first ";"
   const rawCookie = response.headers['set-cookie']?.[0]
-  const cleanCookie = rawCookie ? rawCookie.split(';')[0] : null
+  const accessToken = rawCookie ? rawCookie.split(';')[0] : null
 
-  if (!cleanCookie) {
-    throw new AppError('O backend não retornou o cookie de autenticação.')
+  if (!accessToken) {
+    throw new AppError('O backend não retornou o token de autenticação.')
   }
 
   return {
-    cookie: cleanCookie,
+    accessToken,
   }
 }
 
