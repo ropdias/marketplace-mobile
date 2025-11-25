@@ -6,8 +6,8 @@ export interface updateSellerBody {
   phone: string
   email: string
   avatarId?: string | null
-  password?: string
-  newPassword?: string
+  password: string | null
+  newPassword: string | null
 }
 
 export interface UpdateSellerResponse {
