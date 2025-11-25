@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { KeyboardAvoidingView, Platform, ScrollView, Text } from 'react-native'
@@ -37,6 +37,7 @@ type SignInFormData = z.infer<typeof signInSchema>
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
+  const { email } = useLocalSearchParams<{ email: string }>()
   const { signIn: contextSignIn } = useSession()
   const { showSuccess, showError } = useAppToast()
 
@@ -47,7 +48,7 @@ export default function Login() {
   } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: '',
+      email: email ?? '',
       password: '',
     },
   })
