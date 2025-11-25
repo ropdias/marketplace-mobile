@@ -1,4 +1,4 @@
-import { router } from 'expo-router'
+import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useEffect, useState } from 'react'
 import { FlatList, ListRenderItem, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -166,7 +166,6 @@ export default function Home() {
           query: { search },
           accessToken,
         })
-        console.log('data.products[0]:', data.products[0])
         setProducts(data.products)
       } catch (error) {
         const isAppError = error instanceof AppError
@@ -184,18 +183,20 @@ export default function Home() {
     [showError],
   )
 
+  useFocusEffect(
+    useCallback(() => {
+      const accessToken = getAccessTokenOrEmpty()
+
+      fetchSellerProfile(accessToken)
+    }, [fetchSellerProfile, getAccessTokenOrEmpty]),
+  )
+
   useEffect(() => {
     const accessToken = getAccessTokenOrEmpty()
 
-    fetchSellerProfile(accessToken)
     fetchAllProductsFromSeller(accessToken)
     fetchAllCategories(accessToken)
-  }, [
-    fetchSellerProfile,
-    fetchAllProductsFromSeller,
-    fetchAllCategories,
-    getAccessTokenOrEmpty,
-  ])
+  }, [fetchAllProductsFromSeller, fetchAllCategories, getAccessTokenOrEmpty])
 
   useEffect(() => {
     setProductsFiltered(products)
