@@ -2,10 +2,15 @@ import * as Crypto from 'expo-crypto'
 import { Platform } from 'react-native'
 
 // Define the shape of the object required by React Native FormData
-interface FormDataImageProps {
+interface FormDataImageResponse {
   uri: string
   name: string
   type: string
+}
+
+interface FormDataImageProps {
+  uri: string
+  fileData?: any
 }
 
 /**
@@ -14,10 +19,10 @@ interface FormDataImageProps {
  * @param fileData - (Optional) The file object from expo-file-system or similar
  * @returns An object { uri, name, type } ready to be appended to FormData
  */
-export const createFormDataImage = (
-  uri: string,
-  fileData?: any,
-): FormDataImageProps => {
+export const createFormDataImage = ({
+  uri,
+  fileData,
+}: FormDataImageProps): FormDataImageResponse => {
   // 1. Determine the file extension
   let extension = ''
 
