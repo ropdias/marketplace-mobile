@@ -192,15 +192,9 @@ export default function Register() {
               </VStack>
               <VStack className="w-full gap-[40px]">
                 <VStack className="w-full items-center gap-[20px]">
-                  <Controller
-                    control={control}
-                    name="profilePicture"
-                    render={({ field: { onChange, value } }) => (
-                      <ImageUploader
-                        selectedImage={selectedImage}
-                        setSelectedImage={setSelectedImage}
-                      />
-                    )}
+                  <ImageUploader
+                    selectedImage={selectedImage}
+                    setSelectedImage={setSelectedImage}
                   />
                   {errors.profilePicture?.message && (
                     <Text className="font-body-sm text-red-500">
