@@ -1,4 +1,3 @@
-import * as Crypto from 'expo-crypto'
 import { Platform } from 'react-native'
 
 // Define the shape of the object required by React Native FormData
@@ -43,9 +42,10 @@ export const createFormDataImage = ({
     extension = 'jpg'
   }
 
-  // 2. Generate a Unique Filename (UUID)
-  // This ensures no filename collisions on the backend.
-  const uniqueName = `${Crypto.randomUUID()}.${extension}`
+  // 2. Create a unique file name
+  // We use a generic name or timestamp since the Back-end will change it anyway.
+  // Ex: "upload-1701234567.jpg"
+  const uniqueName = `upload-${Date.now()}.${extension}`
 
   // 3. Determine MIME type based on the extension
   // If it's explicitly png, use png, otherwise default to jpeg for safety.
