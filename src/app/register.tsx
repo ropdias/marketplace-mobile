@@ -90,7 +90,7 @@ export default function Register() {
   })
 
   function goToLogin() {
-    router.navigate({ pathname: '/login', params: { email: 'teste' } })
+    router.navigate('/login')
   }
 
   const handleSignUp = useCallback(
@@ -142,7 +142,7 @@ export default function Register() {
           title: 'Cadastro realizado com sucesso!',
           description: 'Agora é só fazer o login!',
         })
-        router.replace('/login')
+        router.replace({ pathname: '/login', params: { email: data.email } })
       } catch (error) {
         const isAppError = error instanceof AppError
 
