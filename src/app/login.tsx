@@ -30,7 +30,7 @@ import { AppError } from '@/utils/app-error'
 
 const signInSchema = z.object({
   email: z.email({ error: 'Email inválido' }),
-  password: z.string().trim().min(1, { error: 'Informe a senha' }),
+  password: z.string().min(1, { error: 'Informe a senha' }),
 })
 
 type SignInFormData = z.infer<typeof signInSchema>
