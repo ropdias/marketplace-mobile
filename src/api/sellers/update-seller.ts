@@ -28,9 +28,9 @@ export async function updateSeller({ body, accessToken }: UpdateSellerProps) {
       name,
       phone,
       email,
-      avatarId,
-      password,
-      newPassword,
+      avatarId: avatarId ?? undefined,
+      password: password ?? undefined,
+      newPassword: newPassword ?? undefined,
     },
     {
       headers: {
