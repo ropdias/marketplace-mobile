@@ -8,11 +8,13 @@ import { Icon, ImageUploadIcon } from './ui/icon'
 import { Image } from './ui/image'
 
 interface ImageUploaderProps {
+  initialImage?: string | null
   selectedImage: string | null
   setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 export function ImageUploader({
+  initialImage,
   selectedImage,
   setSelectedImage,
 }: ImageUploaderProps) {
@@ -60,6 +62,13 @@ export function ImageUploader({
         size="imageUploaderIcon"
         className="fill-orange-base"
       />
+      {initialImage && !selectedImage && (
+        <Image
+          source={{ uri: initialImage }}
+          alt="profile-picture"
+          className="absolute h-full w-full rounded-[12px]"
+        />
+      )}
       {selectedImage && (
         <Image
           source={{ uri: selectedImage }}
