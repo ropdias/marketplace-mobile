@@ -42,7 +42,7 @@ export function ProductCard({ product }: ProductCardProps) {
       disabled={isNavigating}
     >
       <Card>
-        <VStack className="gap-[4px]">
+        <VStack className="max-w-[156px] gap-[4px]">
           {adjustedLocalUri ? (
             <Image
               source={{ uri: adjustedLocalUri }}
@@ -59,7 +59,13 @@ export function ProductCard({ product }: ProductCardProps) {
             </View>
           )}
           <VStack className="gap-[2px] p-[4px]">
-            <Text className="font-body-xs text-gray-400">{title}</Text>
+            <Text
+              className="font-body-xs text-gray-400"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {title}
+            </Text>
             <HStack className="items-baseline gap-[4px]">
               <Text className="font-label-sm text-gray-500">R$</Text>
               <Text className="font-title-xs text-gray-500">
